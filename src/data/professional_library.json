@@ -1,0 +1,42 @@
+{
+  "The Strategic Architect": {
+    "badge": "Technical Lead",
+    "role_context": "Developer / Engineer",
+    "core_skills": ["Code Review", "System Design", "Writing Tests", "Debugging"],
+    "daily": "Write a script to automate a routine coding task.",
+    "weekly": "Build an automated testing pipeline for your project.",
+    "monthly": "Design a complete system architecture for a new feature."
+  },
+  "The Creative Visionary": {
+    "badge": "Marketing Lead",
+    "role_context": "Marketer / Content Strategist",
+    "core_skills": ["Content Ideation", "SEO Optimization", "Copywriting", "Campaign Analysis"],
+    "daily": "Draft three engaging social media posts.",
+    "weekly": "Create a full content calendar for the upcoming week.",
+    "monthly": "Launch an end-to-end multi-channel marketing campaign."
+  },
+  "The Efficiency Specialist": {
+    "badge": "Operations Manager",
+    "role_context": "Ops / Project Manager",
+    "core_skills": ["Task Delegation", "Process Tracking", "Scheduling", "Risk Management"],
+    "daily": "Create an organized daily task list from raw emails.",
+    "weekly": "Automate a weekly status report for the team.",
+    "monthly": "Implement a new automated approval workflow."
+  },
+  "Product Manager": {
+    "badge": "Product Owner",
+    "role_context": "Product Management",
+    "core_skills": ["User Research", "Writing PRDs", "Sprint Planning", "Feedback Analysis"],
+    "daily": "Summarize customer feedback into priority action items.",
+    "weekly": "Write a clear Product Requirements Document (PRD).",
+    "monthly": "Define and plan out the roadmap for the next quarter."
+  },
+  "Recruiter": {
+    "badge": "Talent Partner",
+    "role_context": "HR / Recruiting",
+    "core_skills": ["Candidate Sourcing", "Interviewing", "Email Outreach", "Onboarding"],
+    "daily": "Draft personalized outreach emails to potential candidates.",
+    "weekly": "Create a structured interview rubrick for a new role.",
+    "monthly": "Build an automated candidate onboarding sequence."
+  }
+}

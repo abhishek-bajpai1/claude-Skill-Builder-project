@@ -1,65 +1,258 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import LandingView from '@/components/views/LandingView';
+import TaskInputView from '@/components/views/TaskInputView';
+import CreateSkillForm from '@/components/views/CreateSkillForm';
+import DashboardView from '@/components/views/DashboardView';
+import TeamLibraryView from '@/components/views/TeamLibraryView';
+import PrivacyInspector from '@/components/views/PrivacyInspector';
+import ModelBenchmarkCard from '@/components/views/ModelBenchmarkCard';
+import DecisionCockpit from '@/components/views/DecisionCockpit';
+import GrowthHubView from '@/components/views/GrowthHubView';
+import PMCommandCenter from '@/components/pm/PMCommandCenter';
+import UserProfileView from '@/components/views/UserProfileView';
+import AgentCouncilView from '@/components/views/AgentCouncilView';
+import Sidebar from '@/components/Sidebar';
+import { triggerConfetti } from '@/lib/celebrate';
+import { analyzeTask, fetchSkills, createSkill, type AnalysisResult, type Skill } from '@/lib/api';
+import { BrainCircuit, Loader2 } from 'lucide-react';
+
+type FlowStep = 'landing' | 'profiler' | 'input' | 'analyzing' | 'recommendation' | 'create' | 'dashboard' | 'benchmark' | 'library' | 'privacy' | 'growth' | 'pm_center' | 'council';
 
 export default function Home() {
+  const [step, setStep] = useState<FlowStep>('landing');
+  const [profile, setProfile] = useState<{ persona: string; goal: string; experience: string } | null>(null);
+  const [task, setTask] = useState('');
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [loadingSkills, setLoadingSkills] = useState(false);
+
+  useEffect(() => {
+    // Check for previous session state if needed
+  }, []);
+
+  const loadSkills = useCallback(async () => {
+    setLoadingSkills(true);
+    try {
+      const data = await fetchSkills();
+      setSkills(data);
+    } catch (e) {
+      console.error('Failed to load skills', e);
+    } finally {
+      setLoadingSkills(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadSkills();
+  }, [loadSkills]);
+
+  const handleTaskSubmit = async (newTask: string) => {
+    setTask(newTask);
+    setStep('analyzing');
+    try {
+      const result = await analyzeTask(newTask, profile?.persona || undefined);
+      setAnalysis(result);
+      setStep('recommendation');
+    } catch (e) {
+      alert('Analysis failed. Please try again.');
+      setStep('input');
+    }
+  };
+
+  const handleSaveSkill = async (formData: any) => {
+    try {
+      const newSkill = await createSkill({
+        name: formData.name,
+        instructions: formData.instructions,
+        output: formData.output,
+        frequency: formData.frequency,
+        capability: analysis?.capability || 'workflow',
+        subscription: analysis?.subscription || 'Free',
+        team: 'My Workspace',
+        tags: [formData.model.toUpperCase()], // Tagging with the chosen model
+      });
+      setSkills(prev => [newSkill, ...prev]);
+      triggerConfetti(); // 🎉 Celebrate success
+      setStep('dashboard');
+    } catch (e) {
+      alert('Failed to save skill. Please try again.');
+    }
+  };
+
+  const navLinks: { label: string; step: FlowStep }[] = [];
+
+  const levelCfg = skills.length >= 10 ? '#8b5cf6' : skills.length >= 5 ? '#d97757' : '#3b82f6';
+
+  const Stepper = () => {
+    const steps = [
+      { id: 'input', label: 'Define Task' },
+      { id: 'analyzing', label: 'Stress Test' },
+      { id: 'recommendation', label: 'Strategic Roadmap' },
+      { id: 'create', label: 'Deploy' },
+    ];
+    const currentIndex = steps.findIndex(s => s.id === (step === 'recommendation' ? 'recommendation' : step));
+    if (currentIndex === -1 && step !== 'recommendation' && step !== 'create') return null;
+
+    return (
+      <div className="max-w-xl mx-auto mb-12 flex items-center justify-between relative px-2">
+        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-slate-100 -z-10 -translate-y-1/2" />
+        {steps.map((s, i) => (
+          <div key={s.id} className="flex flex-col items-center gap-2">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black transition-all border-4 ${
+              i < currentIndex ? 'bg-green-500 border-green-50 text-white' :
+              i === currentIndex ? 'bg-black border-slate-50 text-white scale-110 shadow-lg' :
+              'bg-white border-slate-50 text-slate-300'
+            }`}>
+              {i < currentIndex ? '✓' : i + 1}
+            </div>
+            <span className={`text-[9px] font-black uppercase tracking-widest ${i === currentIndex ? 'text-black' : 'text-slate-300'}`}>
+              {s.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="min-h-screen bg-[#f4f6f8]">
+      {step !== 'landing' && step !== 'profiler' && (
+        <Sidebar 
+          currentStep={step} 
+          onNavigate={(s) => setStep(s)} 
+          xp={skills.length * 45} 
+          level={Math.floor((skills.length * 45) / 100) + 1}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+      )}
+
+      <div className={step !== 'landing' && step !== 'profiler' ? "pl-72" : ""}>
+        <div className="py-8 px-4 md:px-12 max-w-7xl mx-auto">
+
+      <Stepper />
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={step}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+        >
+          {step === 'landing' && <LandingView onStart={() => setStep('profiler')} />}
+          
+          {step === 'profiler' && (
+            <UserProfileView 
+              onSubmit={(p) => { setProfile(p); setStep('input'); }} 
+              onBack={() => setStep('landing')} 
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          )}
+
+          {step === 'input' && <TaskInputView onSubmit={handleTaskSubmit} onBack={() => setStep('profiler')} />}
+
+          {/* Analyzing Loading State */}
+          {step === 'analyzing' && (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
+              <Loader2 size={48} className="animate-spin text-[#d97757]" />
+              <div className="text-center space-y-2">
+                <h2 className="text-2xl font-serif text-slate-900">Stress testing task architecture...</h2>
+                <p className="text-slate-500">Simulating failure modes, drift risk, and tier-specific stability.</p>
+              </div>
+              <div className="flex gap-2 text-xs font-bold text-slate-300">
+                {['Archetype Matching', 'Drift Simulation', 'Capability Validation'].map((s, i) => (
+                  <motion.span
+                    key={s}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: i * 0.4 }}
+                    className="px-3 py-1 bg-white border border-slate-100 rounded-full"
+                  >
+                    {s}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {step === 'recommendation' && analysis && (
+            <DecisionCockpit
+              task={task}
+              analysis={analysis}
+              onCreateAction={() => setStep('create')}
+              onDashboard={() => setStep('dashboard')}
+            />
+          )}
+
+          {step === 'create' && (
+            <CreateSkillForm 
+              onSave={handleSaveSkill} 
+              onCancel={() => setStep('recommendation')} 
+              analysis={analysis} 
+            />
+          )}
+
+          {step === 'dashboard' && (
+            <DashboardView
+              skills={skills}
+              onNewTask={() => setStep('input')}
+              onRefresh={loadSkills}
+              loading={loadingSkills}
+            />
+          )}
+
+          {step === 'benchmark' && (
+            <div className="max-w-5xl mx-auto py-12 space-y-8">
+              <div>
+                <h1 className="text-4xl font-serif text-slate-900">Model Benchmarking</h1>
+                <p className="text-slate-500 mt-2">Compare Claude models for your specific task.</p>
+                {task && <p className="text-xs text-[#d97757] font-bold mt-1 uppercase tracking-wider">Based on: "{task.slice(0, 60)}{task.length > 60 ? '…' : ''}"</p>}
+              </div>
+              <ModelBenchmarkCard task={task} />
+            </div>
+          )}
+
+          {step === 'library' && (
+            <div className="max-w-5xl mx-auto py-12">
+              <TeamLibraryView skills={skills} onRefresh={loadSkills} />
+            </div>
+          )}
+
+          {step === 'privacy' && (
+            <div className="max-w-4xl mx-auto py-12 space-y-8">
+              <div>
+                <h1 className="text-4xl font-serif text-slate-900">Privacy & Security Inspector</h1>
+                <p className="text-slate-500 mt-2">Enterprise compliance analysis for active capabilities.</p>
+              </div>
+              <PrivacyInspector />
+            </div>
+          )}
+
+          {step === 'growth' && (
+            <GrowthHubView onNavigate={(s) => setStep(s as FlowStep)} />
+          )}
+
+          {step === 'pm_center' && (
+            <PMCommandCenter />
+          )}
+
+          {step === 'council' && (
+            <AgentCouncilView />
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+        {/* Footer */}
+        <div className="mt-24 pt-8 border-t border-gray-200 flex justify-between items-center text-xs text-gray-400 font-bold uppercase tracking-widest">
+          <div>Skill Advisor © 2026</div>
+          <div className="flex gap-6">
+            <a href="#" className="hover:text-black">Privacy</a>
+            <a href="#" className="hover:text-black">Methodology</a>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+      </div>
+    </main>
   );
 }

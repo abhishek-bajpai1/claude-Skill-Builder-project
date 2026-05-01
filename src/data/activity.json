@@ -1,0 +1,232 @@
+[
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Recruiter",
+      "to": "Professional"
+    },
+    "id": "096rb5ffa",
+    "timestamp": "2026-05-01T06:38:00.032Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Recruiter.",
+    "meta": {
+      "from": "Professional",
+      "to": "Recruiter"
+    },
+    "id": "uaa191fgq",
+    "timestamp": "2026-05-01T06:38:00.026Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Recruiter",
+      "to": "Professional"
+    },
+    "id": "otxwrvux2",
+    "timestamp": "2026-05-01T06:37:59.972Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Recruiter.",
+    "meta": {
+      "from": "Professional",
+      "to": "Recruiter"
+    },
+    "id": "7e1b6kb0u",
+    "timestamp": "2026-05-01T06:27:37.719Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Developer",
+      "to": "Professional"
+    },
+    "id": "4i801vm14",
+    "timestamp": "2026-05-01T06:27:34.749Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Developer.",
+    "meta": {
+      "from": "Professional",
+      "to": "Developer"
+    },
+    "id": "mfd0c7pkq",
+    "timestamp": "2026-05-01T06:27:31.705Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Operations",
+      "to": "Professional"
+    },
+    "id": "lpbulu6al",
+    "timestamp": "2026-04-19T12:39:31.090Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Operations.",
+    "meta": {
+      "from": "Professional",
+      "to": "Operations"
+    },
+    "id": "n11vz7vwp",
+    "timestamp": "2026-04-19T12:39:31.066Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Operations",
+      "to": "Professional"
+    },
+    "id": "nylqtatew",
+    "timestamp": "2026-04-19T12:39:30.987Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Operations.",
+    "meta": {
+      "from": "Recruiter",
+      "to": "Operations"
+    },
+    "id": "oe95e2x07",
+    "timestamp": "2026-04-19T12:36:48.032Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Recruiter.",
+    "meta": {
+      "from": "Professional",
+      "to": "Recruiter"
+    },
+    "id": "lyavvs5rr",
+    "timestamp": "2026-04-19T12:36:30.298Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Operations",
+      "to": "Professional"
+    },
+    "id": "kzq0323j2",
+    "timestamp": "2026-04-19T09:59:09.852Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Operations.",
+    "meta": {
+      "from": "Professional",
+      "to": "Operations"
+    },
+    "id": "nwgr57xnw",
+    "timestamp": "2026-04-19T09:59:09.844Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Operations",
+      "to": "Professional"
+    },
+    "id": "50q1lgkh9",
+    "timestamp": "2026-04-19T09:59:09.789Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Operations.",
+    "meta": {
+      "from": "Professional",
+      "to": "Operations"
+    },
+    "id": "dbyqzvjl3",
+    "timestamp": "2026-04-19T09:13:01.762Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Developer",
+      "to": "Professional"
+    },
+    "id": "fspwpq97r",
+    "timestamp": "2026-04-19T09:12:38.522Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Developer.",
+    "meta": {
+      "from": "Professional",
+      "to": "Developer"
+    },
+    "id": "7wpazkbae",
+    "timestamp": "2026-04-19T09:12:38.389Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Developer",
+      "to": "Professional"
+    },
+    "id": "aadwjdou9",
+    "timestamp": "2026-04-19T09:12:38.212Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Developer.",
+    "meta": {
+      "from": "Professional",
+      "to": "Developer"
+    },
+    "id": "bpzlyo8z1",
+    "timestamp": "2026-04-19T08:35:32.067Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Product Manager",
+      "to": "Professional"
+    },
+    "id": "e0bxllveo",
+    "timestamp": "2026-04-16T16:11:54.457Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Product Manager.",
+    "meta": {
+      "from": "Professional",
+      "to": "Product Manager"
+    },
+    "id": "4zsunj7do",
+    "timestamp": "2026-04-16T16:11:54.454Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Professional.",
+    "meta": {
+      "from": "Product Manager",
+      "to": "Professional"
+    },
+    "id": "9tds2bwi3",
+    "timestamp": "2026-04-16T16:11:54.422Z"
+  },
+  {
+    "type": "role_switch",
+    "description": "Switched career profile to Product Manager.",
+    "meta": {
+      "from": "Professional",
+      "to": "Product Manager"
+    },
+    "id": "ogsua2c0c",
+    "timestamp": "2026-04-16T15:50:10.768Z"
+  }
+]

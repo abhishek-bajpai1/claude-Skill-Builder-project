@@ -1,0 +1,100 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { BrainCircuit, LayoutDashboard, Sparkles, Database, Shield, TrendingUp, Briefcase, Zap, Users } from 'lucide-react';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+function cn(...inputs: (string | undefined | null | false)[]) {
+  return twMerge(clsx(inputs));
+}
+
+type FlowStep = 'landing' | 'profiler' | 'input' | 'analyzing' | 'recommendation' | 'create' | 'dashboard' | 'benchmark' | 'library' | 'privacy' | 'growth' | 'pm_center' | 'council';
+
+interface SidebarProps {
+  currentStep: FlowStep;
+  onNavigate: (step: FlowStep) => void;
+  xp: number;
+  level: number;
+}
+
+export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarProps) {
+  const navLinks: { label: string; step: FlowStep; icon: React.ElementType }[] = [
+    { label: 'New Analysis', step: 'input', icon: Sparkles },
+    { label: 'Dashboard', step: 'dashboard', icon: LayoutDashboard },
+    { label: 'Growth Hub', step: 'growth', icon: TrendingUp },
+    { label: 'Team Library', step: 'library', icon: Database },
+    { label: 'Model Benchmark', step: 'benchmark', icon: Zap },
+    { label: 'Privacy Inspector', step: 'privacy', icon: Shield },
+    { label: 'Mastery Hub', step: 'pm_center', icon: Briefcase },
+    { label: 'Agent Council', step: 'council', icon: Users },
+  ];
+
+  const progress = Math.min((xp / (level * 100)) * 100, 100);
+
+  return (
+    <div className="w-72 h-screen fixed top-0 left-0 bg-slate-950 border-r border-slate-800 text-slate-300 flex flex-col pt-8 pb-6 shadow-2xl z-50">
+      <div 
+        className="px-6 flex items-center gap-3 cursor-pointer group mb-10"
+        onClick={() => onNavigate('landing')}
+      >
+        <div className="w-10 h-10 bg-gradient-to-br from-[#d97757] to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
+          <BrainCircuit size={20} color="white" />
+        </div>
+        <span className="font-serif font-bold text-xl tracking-tight text-white">Skill Advisor</span>
+      </div>
+
+      <div className="px-4 flex-1 space-y-1">
+        {navLinks.map((link) => {
+          const isActive = currentStep === link.step;
+          const Icon = link.icon;
+          return (
+            <button
+              key={link.step}
+              onClick={() => onNavigate(link.step)}
+              className={cn(
+                "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm",
+                isActive 
+                  ? "bg-slate-800 text-white shadow-inner"
+                  : "hover:bg-slate-900 hover:text-white"
+              )}
+            >
+              <Icon size={18} className={isActive ? "text-[#d97757]" : "text-slate-500"} />
+              {link.label}
+              {isActive && (
+                <motion.div 
+                  layoutId="sidebar-active"
+                  className="absolute left-0 w-1 h-8 bg-[#d97757] rounded-r-full"
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-auto px-6">
+        <div className="bg-slate-900 rounded-2xl p-4 border border-slate-800 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#d97757]/10 rounded-full blur-[40px] pointer-events-none" />
+          
+          <div className="flex items-center justify-between mb-3 relative z-10">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Level {level}</span>
+            <span className="text-xs font-bold text-[#d97757]">{xp} XP</span>
+          </div>
+          
+          <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden relative z-10">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="h-full bg-gradient-to-r from-orange-500 to-[#d97757] rounded-full relative"
+            >
+              <div className="absolute inset-0 bg-white/20 w-full animate-pulse" />
+            </motion.div>
+          </div>
+          <p className="text-[10px] text-slate-500 mt-3 font-medium">
+            {level * 100 - xp} XP to next level
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

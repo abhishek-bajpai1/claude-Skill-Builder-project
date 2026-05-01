@@ -1,0 +1,116 @@
+[
+  {
+    "id": "f16af888-e572-465c-8c04-d2754b9ee7cb",
+    "name": "Direct Workflow",
+    "instructions": "<task_objective>\nlearn deep learning\n</task_objective>\n\n<process_instructions>\n1. Analyze the context provided in the input.\n2. Apply domain-specific expertise to identify core patterns.\n3. Generate the following output structure:\n   - Summary of Findings\n   - Actionable Recommendations\n   - Predicted Impact\n</process_instructions>\n\n<output_formatting>\nAlways wrap the response in clear markdown sections. \nUse bold text for critical emphasis.\n</output_formatting>",
+    "output": "",
+    "frequency": "monthly",
+    "capability": "workflow",
+    "subscription": "Free",
+    "team": "My Workspace",
+    "tags": [
+      "SONNET"
+    ],
+    "uses": 0,
+    "stars": 0,
+    "tokens": "66",
+    "createdAt": "2026-04-19T12:30:44.116Z"
+  },
+  {
+    "id": "1e3826ca-e887-404c-847f-c1ad79ae2c12",
+    "name": "Direct Workflow",
+    "instructions": "<task_objective>\nwrite client email\n</task_objective>\n\n<process_instructions>\n1. Analyze the context provided in the input.\n2. Apply domain-specific expertise to identify core patterns.\n3. Generate the following output structure:\n   - Summary of Findings\n   - Actionable Recommendations\n   - Predicted Impact\n</process_instructions>\n\n<output_formatting>\nAlways wrap the response in clear markdown sections. \nUse bold text for critical emphasis.\n</output_formatting>",
+    "output": "bullets",
+    "frequency": "monthly",
+    "capability": "workflow",
+    "subscription": "Free",
+    "team": "My Workspace",
+    "tags": [
+      "HAIKU"
+    ],
+    "uses": 0,
+    "stars": 0,
+    "tokens": "66",
+    "createdAt": "2026-04-19T11:17:41.797Z"
+  },
+  {
+    "id": "5c6f860a-89a0-459a-984a-3a40afd54601",
+    "name": "Direct Workflow",
+    "instructions": "<task_objective>\nlearn javascript\n</task_objective>\n\n<process_instructions>\n1. Analyze the context provided in the input.\n2. Apply domain-specific expertise to identify core patterns.\n3. Generate the following output structure:\n   - Summary of Findings\n   - Actionable Recommendations\n   - Predicted Impact\n</process_instructions>\n\n<output_formatting>\nAlways wrap the response in clear markdown sections. \nUse bold text for critical emphasis.\n</output_formatting>",
+    "output": "bullets",
+    "frequency": "monthly",
+    "capability": "workflow",
+    "subscription": "Free",
+    "team": "My Workspace",
+    "tags": [
+      "HAIKU"
+    ],
+    "uses": 0,
+    "stars": 0,
+    "tokens": "65",
+    "createdAt": "2026-04-19T09:03:41.996Z"
+  },
+  {
+    "id": "795cf776-4e99-4f26-8771-ce5c02818f46",
+    "name": "api  development",
+    "instructions": "skill api",
+    "output": "bullets",
+    "frequency": "daily",
+    "capability": "workflow",
+    "subscription": "Free",
+    "team": "My Workspace",
+    "tags": [],
+    "uses": 0,
+    "stars": 9,
+    "tokens": "3",
+    "createdAt": "2026-04-19T07:40:29.299Z"
+  },
+  {
+    "id": "1",
+    "name": "Sales Summarizer",
+    "instructions": "Analyze the provided sales CSV and output a markdown summary with key KPIs, top performers, and pipeline trends.",
+    "output": "Markdown summary report",
+    "frequency": "weekly",
+    "team": "Revenue Ops",
+    "tags": [
+      "Data",
+      "Sales"
+    ],
+    "uses": 142,
+    "stars": 34,
+    "tokens": "2.1k",
+    "createdAt": "2026-04-16T04:45:09.231Z"
+  },
+  {
+    "id": "2",
+    "name": "Meeting Scribe",
+    "instructions": "Convert the provided meeting transcript into structured action items, decisions made, and a participant summary.",
+    "output": "Bullet point summary + action items",
+    "frequency": "daily",
+    "team": "Operations",
+    "tags": [
+      "Meetings",
+      "Productivity"
+    ],
+    "uses": 88,
+    "stars": 21,
+    "tokens": "1.8k",
+    "createdAt": "2026-04-16T04:45:09.231Z"
+  },
+  {
+    "id": "3",
+    "name": "Hiring Outreach Writer",
+    "instructions": "Write a personalized outreach email to a candidate based on their role, company, and our open position details.",
+    "output": "Email template with subject line",
+    "frequency": "daily",
+    "team": "People & Culture",
+    "tags": [
+      "HR",
+      "Email"
+    ],
+    "uses": 310,
+    "stars": 61,
+    "tokens": "800",
+    "createdAt": "2026-04-16T04:45:09.231Z"
+  }
+]
