@@ -18,20 +18,46 @@ const Bar = ({ value, color }: { value: number; color: string }) => (
 
 interface Props { task?: string; }
 
+interface Model {
+  id: string;
+  name: string;
+  badge: string;
+  color: string;
+  speed: number;
+  quality: number;
+  costIndex: number;
+  latency: string;
+  tokens: string;
+  costPerRun: string;
+  bestFor: string;
+  highlight?: boolean;
+}
+
 const ModelBenchmarkCard: React.FC<Props> = ({ task = '' }) => {
-  const [models, setModels] = useState<any[]>([]);
+  const [models, setModels] = useState<Model[]>([]);
   const [smartChoice, setSmartChoice] = useState('sonnet');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    fetchBenchmark(task)
-      .then(data => {
-        setModels(data.models);
-        setSmartChoice(data.smartChoice);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    let isMounted = true;
+    
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchBenchmark(task);
+        if (isMounted) {
+          setModels(data.models);
+          setSmartChoice(data.smartChoice);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    loadData();
+    return () => { isMounted = false; };
   }, [task]);
 
   if (loading) return (
@@ -43,7 +69,7 @@ const ModelBenchmarkCard: React.FC<Props> = ({ task = '' }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {models.map((m: any) => {
+      {models.map((m) => {
         const isSmartChoice = m.id === smartChoice;
         return (
           <motion.div

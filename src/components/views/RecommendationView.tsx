@@ -10,7 +10,6 @@ import {
   ChevronRight, 
   Layers, 
   FileCode,
-  LineChart,
   Target,
   Plus,
   BrainCircuit,
@@ -46,7 +45,7 @@ const RecommendationView: React.FC<RecommendationViewProps> = ({ task, onCreateS
           </div>
           <h1 className="text-4xl font-serif text-[#1a1a1a]">Use Existing Skill: <span className="text-[#d97757]">Sales Summarizer</span></h1>
           <p className="text-gray-500 max-w-xl">
-            Task <strong>"{task}"</strong> is highly structured and repetitive. Leveraging a dedicated Skill will ensure consistent output while reducing token overhead by 35%.
+            Task <strong>&quot;{task}&quot;</strong> is highly structured and repetitive. Leveraging a dedicated Skill will ensure consistent output while reducing token overhead by 35%.
           </p>
         </div>
         <div className="flex flex-col gap-3">

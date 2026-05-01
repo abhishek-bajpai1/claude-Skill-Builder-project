@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Target, User, Clock, ChevronRight, Briefcase, GraduationCap } from 'lucide-react';
+import { Target, User, Clock, ChevronRight, Briefcase } from 'lucide-react';
 
 interface UserProfile {
   persona: string;
@@ -35,7 +34,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({ onSubmit, onBack }) =
     <div className="max-w-3xl mx-auto space-y-12 py-12">
       <div className="text-center space-y-4">
         <h2 className="text-5xl font-serif text-slate-900 leading-tight">Secure Your Identity</h2>
-        <p className="text-xl text-slate-500">We tailor the roadmap based on who you are and where you're going.</p>
+        <p className="text-xl text-slate-500">We tailor the roadmap based on who you are and where you&apos;re going.</p>
       </div>
 
       <div className="bg-white p-12 rounded-[3rem] shadow-2xl border border-slate-100 space-y-10 relative overflow-hidden">

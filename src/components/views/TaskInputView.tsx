@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MessageSquare, ArrowRight, Lightbulb } from 'lucide-react';
+import { MessageSquare, ArrowRight } from 'lucide-react';
 
 import DailyUtilityGallery from '@/components/DailyUtilityGallery';
 
@@ -19,7 +18,7 @@ const TaskInputView: React.FC<TaskInputViewProps> = ({ onSubmit, onBack }) => {
       <div className="space-y-4">
         <button onClick={onBack} className="text-sm text-gray-400 hover:text-black transition-colors">← Back to home</button>
         <h2 className="text-4xl font-serif text-[#1a1a1a]">What should Claude help you with?</h2>
-        <p className="text-gray-500">Describe the task in detail. We'll analyze whether a simple prompt, a skill, or a full workflow is best.</p>
+        <p className="text-gray-500">Describe the task in detail. We&apos;ll analyze whether a simple prompt, a skill, or a full workflow is best.</p>
       </div>
 
       <div className="relative">
