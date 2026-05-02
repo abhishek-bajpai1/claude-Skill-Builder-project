@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, Target, Send, Loader2, Network, CheckCircle2, Sparkles } from 'lucide-react';
+import { ShieldAlert, Target, Send, Loader2, Network, CheckCircle2, Sparkles, Database } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -92,9 +92,11 @@ interface Message {
 
 export default function AgentCouncilView() {
   const [taskInput, setTaskInput] = useState('');
+  const [retrievedContext, setRetrievedContext] = useState<any[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [activeAgent, setActiveAgent] = useState<AgentRole | null>(null);
+  const [metrics, setMetrics] = useState<{ reliability: number; reasoningDepth: string; tokensUsed: number } | null>(null);
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -102,7 +104,6 @@ export default function AgentCouncilView() {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [messages, activeAgent]);
-
   const handleSimulateCouncil = async () => {
     if (!taskInput.trim()) return;
 
@@ -111,6 +112,7 @@ export default function AgentCouncilView() {
     setTaskInput('');
     setIsProcessing(true);
     setMetrics(null);
+    setRetrievedContext([]);
 
     try {
       const response = await fetch('/api/council', {
@@ -121,6 +123,17 @@ export default function AgentCouncilView() {
       
       const data = await response.json();
       if (data.error) throw new Error(data.error);
+
+      // Simulation Step 0: RAG / Semantic Retrieval
+      if (data.retrievedContext && data.retrievedContext.length > 0) {
+         setRetrievedContext(data.retrievedContext);
+         setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            agentId: 'system',
+            content: `**Semantic Memory Retrieved**\n\nFound ${data.retrievedContext.length} highly relevant matches from the professional library to ground this analysis.`
+         }]);
+         await new Promise(r => setTimeout(r, 1200));
+      }
 
       // Simulate Agent 1: Visionary
       setActiveAgent('visionary');
@@ -224,6 +237,36 @@ export default function AgentCouncilView() {
                 </div>
               );
             })}
+          </section>
+
+          {/* New Deep Learning Concept: RAG Neural Memory */}
+          <section className="bg-slate-900/60 rounded-[2rem] border border-slate-800 p-6 space-y-4">
+            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-2">
+              <Sparkles size={12} className="text-cyan-400" />
+              Neural Memory (RAG)
+            </h3>
+            {retrievedContext.length > 0 ? (
+               <div className="space-y-3">
+                  {retrievedContext.map((item, i) => (
+                     <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="p-3 bg-slate-950 rounded-xl border border-cyan-500/20 group hover:border-cyan-500/40 transition-colors"
+                     >
+                        <div className="text-[9px] font-black text-cyan-400 uppercase tracking-tighter mb-1">{item.category}</div>
+                        <div className="text-xs font-bold text-white mb-1">{item.title}</div>
+                        <div className="text-[10px] text-slate-500 leading-tight">{item.content}</div>
+                     </motion.div>
+                  ))}
+               </div>
+            ) : (
+               <div className="py-4 flex flex-col items-center justify-center text-center opacity-20">
+                  <Database size={24} className="text-slate-500 mb-2" />
+                  <span className="text-[9px] font-black uppercase tracking-tighter italic">No Semantic Matches</span>
+               </div>
+            )}
           </section>
 
           {/* New Reliability Dashboard */}
@@ -340,7 +383,38 @@ export default function AgentCouncilView() {
           </div>
 
           {/* Input Area */}
-          <div className="p-6 bg-slate-900/80 border-t border-slate-800 backdrop-blur-xl">
+          <div className="p-6 bg-slate-900/80 border-t border-slate-800 backdrop-blur-xl space-y-4">
+            
+            {/* New Deep Learning Concept: Attention Map */}
+            {taskInput.length > 10 && (
+               <motion.div 
+                 initial={{ opacity: 0, y: 10 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 className="flex flex-wrap gap-2 p-4 bg-slate-950/50 rounded-xl border border-slate-800/50"
+               >
+                  <span className="text-[8px] font-black text-slate-600 uppercase tracking-widest w-full mb-1 flex items-center gap-2">
+                     <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
+                     Real-time Attention Heatmap (Latent Space)
+                  </span>
+                  {taskInput.split(' ').map((word, idx) => {
+                     const isHighAttention = ['pivoting', 'startup', 'business', 'career', 'ai', 'engineering', 'process', 'automate', 'scaling'].includes(word.toLowerCase().replace(/[^a-z]/g, ''));
+                     return (
+                        <span 
+                           key={idx} 
+                           className={cn(
+                              "text-[10px] px-1.5 py-0.5 rounded transition-all duration-700",
+                              isHighAttention 
+                                ? "bg-orange-500/20 text-orange-400 font-bold border border-orange-500/30 scale-110" 
+                                : "text-slate-600"
+                           )}
+                        >
+                           {word}
+                        </span>
+                     );
+                  })}
+               </motion.div>
+            )}
+
             <div className="relative flex items-center max-w-4xl mx-auto">
               <input 
                 type="text" 

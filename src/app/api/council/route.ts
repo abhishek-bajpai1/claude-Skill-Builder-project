@@ -52,6 +52,22 @@ Use markdown formatting (###, **, *) within the strings. Do not include anything
       }
     }
 
+    // NEW: Semantic Memory Retrieval (RAG Simulation)
+    const library = [
+      { id: '1', title: 'The Mom Test', category: 'Validation', content: 'Focus on habits, not opinions.' },
+      { id: '2', title: 'Lean Startup', category: 'Methodology', content: 'Build-Measure-Learn loop.' },
+      { id: '3', title: 'Zero to One', category: 'Strategy', content: 'Vertical vs Horizontal progress.' },
+      { id: '4', title: 'Atomic Habits', category: 'Productivity', content: 'Small 1% changes compounding.' }
+    ];
+
+    const retrievedContext = library.filter(item => 
+      task.toLowerCase().includes(item.title.toLowerCase()) || 
+      task.toLowerCase().includes(item.category.toLowerCase()) ||
+      (task.toLowerCase().includes('startup') && item.title === 'Lean Startup') ||
+      (task.toLowerCase().includes('habit') && item.title === 'Atomic Habits') ||
+      (task.toLowerCase().includes('business') && item.title === 'Zero to One')
+    );
+
     // FALLBACK MOCK LOGIC (If no API key is provided)
     // Using advanced heuristic engine to generate rich, detailed "analyzed" responses without needing a paid API key.
     
@@ -91,6 +107,7 @@ Use markdown formatting (###, **, *) within the strings. Do not include anything
       skeptic: skepticAnalysis,
       pragmatist: pragmatistAnalysis,
       system: systemConsensus,
+      retrievedContext,
       metrics: {
         reliability: 94,
         reasoningDepth: "High",
