@@ -110,6 +110,7 @@ export default function AgentCouncilView() {
     setMessages(prev => [...prev, newTaskMessage]);
     setTaskInput('');
     setIsProcessing(true);
+    setMetrics(null);
 
     try {
       const response = await fetch('/api/council', {
@@ -156,6 +157,7 @@ export default function AgentCouncilView() {
         agentId: 'system',
         content: data.system
       }]);
+      setMetrics(data.metrics);
     } catch (err) {
       setActiveAgent(null);
       setMessages(prev => [...prev, {
@@ -193,40 +195,83 @@ export default function AgentCouncilView() {
 
       <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-4 gap-8 z-10 flex-1 min-h-0">
         
-        {/* Left Side: Agents List */}
-        <div className="lg:col-span-1 space-y-4">
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 ml-1">Council Nodes</h3>
-          {AGENTS.map((agent) => {
-            const Icon = agent.icon;
-            const isActive = activeAgent === agent.id;
-            return (
-              <div 
-                key={agent.id}
-                className={cn(
-                  "p-5 rounded-2xl border transition-all duration-500 relative overflow-hidden backdrop-blur-md",
-                  isActive 
-                    ? cn("bg-slate-900 border-white/20", agent.glow) 
-                    : "bg-slate-900/40 border-slate-800/50 hover:bg-slate-800/50"
-                )}
-              >
-                {isActive && (
-                  <motion.div 
-                    layoutId="active-glow"
-                    className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-50" 
-                  />
-                )}
-                <div className="flex items-center gap-4 relative z-10">
-                  <div className={cn("p-2.5 rounded-xl transition-colors", isActive ? "bg-slate-800" : "bg-slate-950")}>
-                    <Icon className={cn("w-5 h-5", isActive ? agent.color : "text-slate-500")} />
-                  </div>
-                  <div>
-                    <p className={cn("font-bold text-sm", isActive ? "text-white" : "text-slate-300")}>{agent.name}</p>
-                    <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-1">{agent.description}</p>
+        {/* Left Side: Agents & Reliability Dashboard */}
+        <div className="lg:col-span-1 space-y-6">
+          <section className="space-y-4">
+            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 ml-1">Council Nodes</h3>
+            {AGENTS.map((agent) => {
+              const Icon = agent.icon;
+              const isActive = activeAgent === agent.id;
+              return (
+                <div 
+                  key={agent.id}
+                  className={cn(
+                    "p-5 rounded-2xl border transition-all duration-500 relative overflow-hidden backdrop-blur-md",
+                    isActive 
+                      ? cn("bg-slate-900 border-white/20", agent.glow) 
+                      : "bg-slate-900/40 border-slate-800/50 hover:bg-slate-800/50"
+                  )}
+                >
+                  <div className="flex items-center gap-4 relative z-10">
+                    <div className={cn("p-2.5 rounded-xl transition-colors", isActive ? "bg-slate-800" : "bg-slate-950")}>
+                      <Icon className={cn("w-5 h-5", isActive ? agent.color : "text-slate-500")} />
+                    </div>
+                    <div>
+                      <p className={cn("font-bold text-sm", isActive ? "text-white" : "text-slate-300")}>{agent.name}</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-1">{agent.description}</p>
+                    </div>
                   </div>
                 </div>
+              );
+            })}
+          </section>
+
+          {/* New Reliability Dashboard */}
+          <section className="bg-slate-900/60 rounded-[2rem] border border-slate-800 p-6 space-y-6">
+            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-2">
+              <ShieldAlert size={12} className="text-indigo-400" />
+              Reliability Audit
+            </h3>
+
+            {metrics ? (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-[10px] font-bold">
+                    <span className="text-slate-400">Consensus Index</span>
+                    <span className="text-emerald-400">{metrics.reliability}%</span>
+                  </div>
+                  <div className="w-full bg-slate-950 h-1 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${metrics.reliability}%` }}
+                      className="h-full bg-emerald-500" 
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-slate-950 p-3 rounded-xl border border-slate-800/50">
+                    <span className="text-[8px] font-black text-slate-500 uppercase block mb-1">Depth</span>
+                    <span className="text-xs font-bold text-white">{metrics.reasoningDepth}</span>
+                  </div>
+                  <div className="bg-slate-950 p-3 rounded-xl border border-slate-800/50">
+                    <span className="text-[8px] font-black text-slate-500 uppercase block mb-1">Tokens</span>
+                    <span className="text-xs font-bold text-white">{metrics.tokensUsed}</span>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex items-center gap-2">
+                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                   <span className="text-[9px] text-slate-400 font-medium">Neural Integrity Verified</span>
+                </div>
               </div>
-            );
-          })}
+            ) : (
+              <div className="py-4 flex flex-col items-center justify-center text-center opacity-30">
+                 <Loader2 size={24} className="animate-spin text-slate-500 mb-2" />
+                 <span className="text-[9px] font-black uppercase tracking-tighter">Waiting for Consensus</span>
+              </div>
+            )}
+          </section>
         </div>
 
         {/* Right Side: Arena */}
