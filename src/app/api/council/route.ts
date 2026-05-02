@@ -78,6 +78,7 @@ Use markdown formatting (###, **, *) within the strings. Do not include anything
     let pragmatistAnalysis = `### Execution Framework\nLet's bridge the gap between the vision and the reality. We need a low-friction testing ground.\n\n**Immediate Next Steps (Next 7 Days):**\n1. **Define the MVP:** What is the absolute smallest version of this you can test this weekend?\n2. **Time-Box the Effort:** Allocate no more than 2 hours a day to this to protect your baseline.\n3. **Gather Signal:** We need real-world data, not just theory. Talk to 3 people or run a micro-experiment.\n\n*Recommendation:* Stop planning. Start testing.`;
 
     let systemConsensus = `**Council Consensus Reached**\n\n**Verdict:** Proceed with cautious aggression.\n**The Strategy:** Harness the ambition identified by the Visionary, but constrain it using the Pragmatist's 7-day micro-experiment framework to mitigate the burnout risks flagged by the Analyst.\n\n*Status:* Ready for execution.`;
+    let reconciliationAnalysis = `### Neural Conflict Resolution\nThe Analyst's concern about "Resource Depletion" is valid but can be mitigated by the Pragmatist's "7-Day Experiment" framework. By time-boxing the effort to 2 hours, we protect the baseline while still exploring the Visionary's "10x Opportunity." Consensus: Proceed with limited liability.`;
 
     const lowerTask = task.toLowerCase();
 
@@ -86,18 +87,21 @@ Use markdown formatting (###, **, *) within the strings. Do not include anything
       skepticAnalysis = `### Financial & Psychological Risks\nQuitting without a safety net is statistically dangerous.\n\n**Risks:**\n* **The Runway Problem:** Do you have 6-12 months of living expenses saved?\n* **Market Reality:** The current job market is volatile. Re-entry if this fails could be difficult.`;
       pragmatistAnalysis = `### The Transition Playbook\nDo not burn the boats yet. Let's build a bridge.\n\n**Action Plan:**\n1. Keep your current job but mentally "quiet quit" to reclaim 10-15 hours a week.\n2. Dedicate those hours to upskilling or building your side hustle.\n3. **The Trigger:** Only submit your resignation when your side income covers 75% of your baseline living expenses.`;
       systemConsensus = `**Verdict:** Proceed with cautious aggression. Build the bridge before quitting.`;
+      reconciliationAnalysis = `**Resolution:** The Visionary's "Career Pivot" is only possible if the Skeptic's "Runway Problem" is solved first. The Pragmatist's "Bridge Strategy" is the mandatory consensus path.`;
     } 
     else if (lowerTask.includes('health') || lowerTask.includes('diet') || lowerTask.includes('workout')) {
       visionaryAnalysis = `### Physical Optimization\nOptimizing your health is the foundation of all other success. High energy levels directly correlate with higher cognitive output.\n\n**Upside:** Complete physiological transformation leads to enhanced focus, better sleep, and an extended healthspan.`;
       skepticAnalysis = `### The Consistency Trap\nAmbitious health overhauls almost always fail by week 3.\n\n**Risks:**\n* **The All-or-Nothing Fallacy:** Missing one day often leads to complete abandonment of the routine.\n* **Burnout:** Ramping up intensity too fast leads to fatigue.`;
       pragmatistAnalysis = `### The Minimum Effective Dose\nWe need habits that survive your worst days, not just your best days.\n\n**Action Plan:**\n1. **Micro-Habit:** Commit to just 10 minutes of movement daily. No exceptions.\n2. **Environment Design:** Remove friction. Put your gym clothes out the night before.\n3. **Focus on Input, Not Output:** Track whether you showed up, not the weight on the scale.`;
       systemConsensus = `**Verdict:** Adopt the 10-minute micro-habit. Focus on consistency over intensity.`;
+      reconciliationAnalysis = `**Resolution:** The Visionary's "Complete Transformation" is dangerous if attempted all at once (Skeptic's Burnout risk). The Pragmatist's "Micro-Habit" approach is the only sustainable way to achieve the Visionary's long-term health goal.`;
     }
     else if (lowerTask.includes('business') || lowerTask.includes('startup') || lowerTask.includes('founder') || lowerTask.includes('kitchen')) {
       visionaryAnalysis = `### The Zero-to-One Opportunity\nBuilding a business creates true equity and leverage. This idea has the hallmarks of a scalable venture if positioned correctly in the current market.\n\n**Upside:** Uncapped financial upside, total creative control, and the ability to solve a meaningful problem at scale.`;
       skepticAnalysis = `### The Market Reality Check\nIdeas are cheap; distribution is everything.\n\n**Risks:**\n* **Solution Searching for a Problem:** Are you building this because it's cool, or because the market is begging for it with their wallets?\n* **Distribution Disadvantage:** How will you acquire your first 1,000 users without burning capital?`;
       pragmatistAnalysis = `### The Validation Protocol\nDo not write a single line of code or spend a dollar on inventory yet.\n\n**Action Plan:**\n1. **The Mom Test:** Interview 5 potential customers about their problem, not your solution.\n2. **The Painted Door:** Set up a landing page describing the product and see if people will give you their email (or prepay).\n3. **Build Manual First:** Provide the service manually before scaling.`;
       systemConsensus = `**Verdict:** Validate distribution first. Do not spend money until 5 strangers have committed to buying.`;
+      reconciliationAnalysis = `**Resolution:** The Visionary's "Zero-to-One" potential is a mirage until the Skeptic's "Distribution Reality Check" is passed. The Pragmatist's "Validation Protocol" serves as the mandatory gatekeeper before any capital investment.`;
     }
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -107,6 +111,7 @@ Use markdown formatting (###, **, *) within the strings. Do not include anything
       skeptic: skepticAnalysis,
       pragmatist: pragmatistAnalysis,
       system: systemConsensus,
+      reconciliation: reconciliationAnalysis,
       retrievedContext,
       metrics: {
         reliability: 94,

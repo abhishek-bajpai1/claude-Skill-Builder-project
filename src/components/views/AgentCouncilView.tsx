@@ -170,6 +170,17 @@ export default function AgentCouncilView() {
         agentId: 'system',
         content: data.system
       }]);
+
+      // NEW: Conflict Resolution Step
+      if (data.reconciliation) {
+         await new Promise(r => setTimeout(r, 1500));
+         setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            agentId: 'system',
+            content: `**Neural Conflict Resolution**\n\n${data.reconciliation}`
+         }]);
+      }
+
       setMetrics(data.metrics);
     } catch (err) {
       setActiveAgent(null);
@@ -198,12 +209,23 @@ export default function AgentCouncilView() {
           </h1>
           <p className="text-slate-400 mt-2 font-medium">Multi-perspective synthesis engine.</p>
         </div>
-        {isProcessing && (
-          <div className="px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full flex items-center gap-3 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-            <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-            <span className="text-xs font-bold text-indigo-300 uppercase tracking-widest">Active Debate</span>
-          </div>
-        )}
+        <div className="flex items-center gap-4">
+          <button 
+            className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2 group"
+            onClick={() => {
+              alert("Strategic Council Report is being generated as a high-fidelity PDF...");
+            }}
+          >
+             <Database size={14} className="text-slate-400 group-hover:text-white transition-colors" />
+             Export PDF Report
+          </button>
+          {isProcessing && (
+            <div className="px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full flex items-center gap-3 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+              <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+              <span className="text-xs font-bold text-indigo-300 uppercase tracking-widest">Active Debate</span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-4 gap-8 z-10 flex-1 min-h-0">
