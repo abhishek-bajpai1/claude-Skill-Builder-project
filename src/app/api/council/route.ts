@@ -104,6 +104,37 @@ Use markdown formatting (###, **, *) within the strings. Do not include anything
       reconciliationAnalysis = `**Resolution:** The Visionary's "Zero-to-One" potential is a mirage until the Skeptic's "Distribution Reality Check" is passed. The Pragmatist's "Validation Protocol" serves as the mandatory gatekeeper before any capital investment.`;
     }
 
+    let suggestions = [
+      "How do I measure the 10x impact in the first 30 days?",
+      "What are the specific 'kill switch' metrics I should track?",
+      "Can we simulate a worst-case scenario for this initiative?"
+    ];
+
+    if (lowerTask.includes('job') || lowerTask.includes('career') || lowerTask.includes('quit')) {
+      // ... (existing logic for job)
+      suggestions = [
+        "How do I structure my 'Quiet Quitting' schedule?",
+        "What are the top 3 AI skills for my specific pivot?",
+        "Help me draft a 'Bridge' timeline for the next 6 months."
+      ];
+    } 
+    else if (lowerTask.includes('health') || lowerTask.includes('diet') || lowerTask.includes('workout')) {
+      // ... (existing logic for health)
+      suggestions = [
+        "Show me a 10-minute home workout for entrepreneurs.",
+        "How do I manage nutrition during high-stress weeks?",
+        "What are the best recovery metrics to track in the morning?"
+      ];
+    }
+    else if (lowerTask.includes('business') || lowerTask.includes('startup') || lowerTask.includes('founder') || lowerTask.includes('kitchen')) {
+      // ... (existing logic for business)
+      suggestions = [
+        "Help me draft the 'Mom Test' interview questions.",
+        "How do I set up a 'Painted Door' test for $0?",
+        "What are the best low-cost distribution channels for this niche?"
+      ];
+    }
+
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     return NextResponse.json({
@@ -113,6 +144,7 @@ Use markdown formatting (###, **, *) within the strings. Do not include anything
       system: systemConsensus,
       reconciliation: reconciliationAnalysis,
       retrievedContext,
+      suggestions,
       metrics: {
         reliability: 94,
         reasoningDepth: "High",

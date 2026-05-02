@@ -104,21 +104,25 @@ export default function AgentCouncilView() {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [messages, activeAgent]);
-  const handleSimulateCouncil = async () => {
-    if (!taskInput.trim()) return;
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
-    const newTaskMessage: Message = { id: Date.now().toString(), agentId: 'user', content: taskInput };
+  const handleSimulateCouncil = async (forcedTask?: string) => {
+    const finalTask = forcedTask || taskInput;
+    if (!finalTask.trim()) return;
+
+    const newTaskMessage: Message = { id: Date.now().toString(), agentId: 'user', content: finalTask };
     setMessages(prev => [...prev, newTaskMessage]);
     setTaskInput('');
     setIsProcessing(true);
     setMetrics(null);
     setRetrievedContext([]);
+    setSuggestions([]);
 
     try {
       const response = await fetch('/api/council', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ task: newTaskMessage.content })
+        body: JSON.stringify({ task: finalTask })
       });
       
       const data = await response.json();
@@ -182,6 +186,7 @@ export default function AgentCouncilView() {
       }
 
       setMetrics(data.metrics);
+      setSuggestions(data.suggestions || []);
     } catch (err) {
       setActiveAgent(null);
       setMessages(prev => [...prev, {
@@ -400,6 +405,26 @@ export default function AgentCouncilView() {
                     <span className="text-xs font-bold tracking-widest uppercase text-indigo-400/70">Synthesizing...</span>
                   </motion.div>
                 )}
+                {!isProcessing && suggestions.length > 0 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    className="flex flex-col gap-3 mt-10 border-t border-slate-800 pt-8"
+                  >
+                     <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">Multi-Call Suggestions</span>
+                     <div className="flex flex-wrap gap-2">
+                        {suggestions.map((suggestion, i) => (
+                           <button 
+                             key={i}
+                             onClick={() => handleSimulateCouncil(suggestion)}
+                             className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs font-medium text-slate-300 hover:border-[#d97757] hover:text-white transition-all text-left max-w-sm"
+                           >
+                              {suggestion}
+                           </button>
+                        ))}
+                     </div>
+                  </motion.div>
+                )}
               </AnimatePresence>
             )}
           </div>
@@ -448,7 +473,7 @@ export default function AgentCouncilView() {
                 className="w-full pl-6 pr-16 py-5 bg-slate-950 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all disabled:opacity-50 shadow-inner"
               />
               <button 
-                onClick={handleSimulateCouncil}
+                onClick={() => handleSimulateCouncil()}
                 disabled={isProcessing || !taskInput.trim()}
                 className="absolute right-3 p-3 bg-white text-black rounded-xl hover:bg-slate-200 disabled:opacity-20 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)]"
               >
