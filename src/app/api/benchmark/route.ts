@@ -21,6 +21,8 @@ export async function POST(req: NextRequest) {
         latency: isComplex ? '4s' : '2s',
         tokens: isComplex ? '3.1k' : '1.8k',
         costPerRun: '$0.0004',
+        roi: '98% Cost Reduction',
+        businessImpact: 'High-volume low-cost scaling',
         bestFor: 'Simple classification, extraction, short drafts',
       },
       {
@@ -34,6 +36,8 @@ export async function POST(req: NextRequest) {
         latency: isComplex ? '12s' : '6s',
         tokens: isComplex ? '4.8k' : '2.5k',
         costPerRun: '$0.015',
+        roi: '12.5x Efficiency Gain',
+        businessImpact: 'Optimal balance for production AI',
         bestFor: 'Complex reasoning, multi-step tasks, structured output',
         highlight: true,
       },
@@ -48,6 +52,8 @@ export async function POST(req: NextRequest) {
         latency: isComplex ? '32s' : '18s',
         tokens: isComplex ? '7.2k' : '3.4k',
         costPerRun: '$0.075',
+        roi: '99.9% Accuracy Delta',
+        businessImpact: 'Highest strategic value insights',
         bestFor: 'Research, nuanced analysis, creative tasks',
       },
     ];

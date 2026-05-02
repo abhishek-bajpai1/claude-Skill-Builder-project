@@ -30,6 +30,8 @@ interface Model {
   tokens: string;
   costPerRun: string;
   bestFor: string;
+  roi: string;
+  businessImpact: string;
   highlight?: boolean;
 }
 
@@ -76,12 +78,18 @@ const ModelBenchmarkCard: React.FC<Props> = ({ task = '' }) => {
             key={m.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`p-7 rounded-3xl border-2 space-y-6 transition-all ${
+            className={`p-7 rounded-3xl border-2 space-y-6 transition-all relative overflow-hidden ${
               m.highlight || isSmartChoice
                 ? 'border-[#d97757] shadow-xl scale-105 bg-white z-10 ring-4 ring-orange-50'
                 : 'border-slate-100 bg-slate-50/60'
             }`}
           >
+            {isSmartChoice && (
+               <div className="absolute top-0 right-0 bg-[#d97757] text-white text-[8px] font-black uppercase px-3 py-1 rounded-bl-xl tracking-tighter">
+                  ROI Positive
+               </div>
+            )}
+
             <div className="flex justify-between items-center">
               <h3 className="font-bold text-slate-900">{m.name}</h3>
               <span
@@ -93,6 +101,10 @@ const ModelBenchmarkCard: React.FC<Props> = ({ task = '' }) => {
             </div>
 
             <div className="space-y-4 text-xs font-bold">
+               <div className="p-3 bg-slate-900 rounded-xl text-white flex justify-between items-center">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-widest">Business ROI</span>
+                  <span className="text-orange-400 font-black">{m.roi}</span>
+               </div>
               {[
                 { icon: <Clock size={10} />, label: 'Speed', value: m.speed },
                 { icon: <Star size={10} />, label: 'Quality', value: m.quality },
@@ -110,17 +122,17 @@ const ModelBenchmarkCard: React.FC<Props> = ({ task = '' }) => {
 
             <div className="pt-4 border-t border-slate-100 space-y-1.5 text-xs">
               <div className="flex justify-between text-slate-400 font-bold">
-                <span>Latency</span><span className="text-slate-900">{m.latency}</span>
+                <span>Impact</span><span className="text-slate-900 text-[10px] uppercase tracking-tighter">{m.businessImpact}</span>
               </div>
               <div className="flex justify-between text-slate-400 font-bold">
-                <span>Est. Tokens</span><span className="text-slate-900">{m.tokens}</span>
+                <span>Latency</span><span className="text-slate-900">{m.latency}</span>
               </div>
               <div className="flex justify-between text-slate-400 font-bold">
                 <span>Cost/Run</span><span className="text-slate-900">{m.costPerRun}</span>
               </div>
             </div>
 
-            <p className="text-[10px] text-slate-400 leading-relaxed">{m.bestFor}</p>
+            <p className="text-[10px] text-slate-400 leading-relaxed font-medium italic">Best for: {m.bestFor}</p>
           </motion.div>
         );
       })}

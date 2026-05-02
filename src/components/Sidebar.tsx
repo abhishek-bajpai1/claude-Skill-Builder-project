@@ -71,7 +71,20 @@ export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarP
         })}
       </div>
 
-      <div className="mt-auto px-6">
+      <div className="mt-auto px-6 space-y-4">
+        {/* Daily Retention Hook */}
+        <div className="bg-gradient-to-br from-orange-500/10 to-transparent rounded-2xl p-4 border border-orange-500/20 relative overflow-hidden group hover:border-orange-500/40 transition-colors cursor-default">
+           <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform">
+                 <Zap size={16} color="white" fill="white" />
+              </div>
+              <div className="flex flex-col">
+                 <span className="text-xs font-black text-white uppercase tracking-tighter">7 Day Streak</span>
+                 <span className="text-[10px] text-orange-400 font-bold uppercase tracking-widest">Mastery Multiplier x1.2</span>
+              </div>
+           </div>
+        </div>
+
         <div className="bg-slate-900 rounded-2xl p-4 border border-slate-800 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#d97757]/10 rounded-full blur-[40px] pointer-events-none" />
           
