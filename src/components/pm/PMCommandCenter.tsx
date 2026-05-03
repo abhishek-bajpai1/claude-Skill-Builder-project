@@ -421,18 +421,18 @@ const FeatureInbox = () => {
 // ──────────────────────────────────────────────
 // PM COMMAND CENTER (main view)
 // ──────────────────────────────────────────────
-const SPRINT_CALENDAR = [
-  { day: 'Monday', tasks: ['Run standup notes skill', 'Review weekly sales summary', 'Update sprint backlog'], color: '#d97757' },
-  { day: 'Tuesday', tasks: ['Analyze feature requests', 'Draft PRD for top P0 item', 'Competitor check-in'], color: '#8b5cf6' },
-  { day: 'Wednesday', tasks: ['Mid-sprint check — RICE re-score', 'Stakeholder update draft', 'User interview notes synthesis'], color: '#3b82f6' },
-  { day: 'Thursday', tasks: ['Engineering sync — share PRD', 'Run benchmark on new Claude skill', 'Prepare demo script'], color: '#22c55e' },
-  { day: 'Friday', tasks: ['Sprint retro analysis', 'Write weekly digest for leadership', 'Plan next sprint features'], color: '#f59e0b' },
+const SUPPORT_SCHEDULE = [
+  { day: 'High Priority', tasks: ['Active strategic bottlenecks', 'Technical logic failures', 'Immediate career pivots'], color: '#d97757' },
+  { day: 'Medium Priority', tasks: ['Skill roadmap audits', 'Market gap analysis', 'Productivity bottlenecks'], color: '#8b5cf6' },
+  { day: 'General Public', tasks: ['Life optimization tips', 'Learning path guidance', 'Personal habits audit'], color: '#3b82f6' },
+  { day: 'Professional', tasks: ['Executive decision support', 'Advanced architectural review', 'Stakeholder alignment'], color: '#22c55e' },
+  { day: 'Knowledge base', tasks: ['Retrieval of core library data', 'Case study matching', 'Semantic memory sync'], color: '#f59e0b' },
 ];
 
-type PMTool = 'overview' | 'rice' | 'stakeholder' | 'inbox';
+type SupportTool = 'overview' | 'rice' | 'stakeholder' | 'inbox';
 
 const PMCommandCenter: React.FC = () => {
-  const [active, setActive] = useState<PMTool>('overview');
+  const [active, setActive] = useState<SupportTool>('overview');
 
   const tools = [
     { id: 'rice' as PMTool, label: 'RICE Prioritizer', emoji: '📊', desc: 'Score & rank your backlog' },
@@ -445,15 +445,19 @@ const PMCommandCenter: React.FC = () => {
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 text-[10px] font-black text-[#d97757] uppercase tracking-widest mb-2">
-          <Sparkles size={12} /> Product Manager Command Center
+          <Sparkles size={12} /> Neural Instant Support Hub
         </div>
-        <h1 className="text-4xl font-serif text-slate-900">PM Workspace</h1>
-        <p className="text-slate-500 mt-2">Your AI-powered toolkit for prioritization, communication, and customer intelligence.</p>
+        <h1 className="text-4xl font-serif text-slate-900">Instant Problem Solver</h1>
+        <p className="text-slate-500 mt-2">Zero-latency neural assistance for general public needs and professional strategic emergencies.</p>
       </div>
 
       {/* Tool Cards / Nav */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {tools.map(t => (
+        {[
+          { id: 'rice', label: 'Strategic Rescue', emoji: '🆘', desc: 'Fix immediate business or life bottlenecks' },
+          { id: 'stakeholder', label: 'Technical Resolve', emoji: '🛠️', desc: 'Debug logic or complex workflows' },
+          { id: 'inbox', label: 'Career Catalyst', emoji: '📈', desc: 'Instant audit for career trajectory' },
+        ].map(t => (
           <button
             key={t.id}
             onClick={() => setActive(active === t.id ? 'overview' : t.id)}
@@ -486,15 +490,15 @@ const PMCommandCenter: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Sprint Intelligence */}
+      {/* Neural Support Intelligence */}
       <section className="space-y-6">
         <div className="flex items-center gap-2">
           <Calendar size={18} className="text-[#d97757]" />
-          <h2 className="text-2xl font-serif text-slate-900">Sprint Intelligence Calendar</h2>
+          <h2 className="text-2xl font-serif text-slate-900">Neural Response Schedule</h2>
         </div>
-        <p className="text-slate-500 text-sm -mt-3">Your recommended Claude skill usage schedule for each day of the sprint.</p>
+        <p className="text-slate-500 text-sm -mt-3">Real-time availability and response priorities for neural support agents.</p>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          {SPRINT_CALENDAR.map((day, i) => (
+          {SUPPORT_SCHEDULE.map((day, i) => (
             <motion.div
               key={day.day}
               initial={{ opacity: 0, y: 10 }}
@@ -516,13 +520,13 @@ const PMCommandCenter: React.FC = () => {
         </div>
       </section>
 
-      {/* PM Metrics Row */}
+      {/* Support Metrics Row */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-5">
         {[
-          { label: 'Features Prioritized', val: '24', icon: <Target size={16} />, color: '#d97757' },
-          { label: 'Stakeholder Updates', val: '12', icon: <Users size={16} />, color: '#8b5cf6' },
-          { label: 'Requests Classified', val: '87', icon: <Inbox size={16} />, color: '#3b82f6' },
-          { label: 'Hours Saved (est.)', val: '14h', icon: <TrendingUp size={16} />, color: '#22c55e' },
+          { label: 'Issues Resolved', val: '142', icon: <Target size={16} />, color: '#d97757' },
+          { label: 'Support Tickets', val: '12', icon: <Users size={16} />, color: '#8b5cf6' },
+          { label: 'Quick Assists', val: '87', icon: <Inbox size={16} />, color: '#3b82f6' },
+          { label: 'Resolution Time', val: '< 2m', icon: <TrendingUp size={16} />, color: '#22c55e' },
         ].map((s, i) => (
           <div key={i} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
             <div className="flex items-center gap-2 mb-2" style={{ color: s.color }}>

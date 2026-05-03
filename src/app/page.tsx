@@ -141,7 +141,22 @@ export default function Home() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
-          {step === 'landing' && <LandingView onStart={() => setStep('profiler')} />}
+          {step === 'landing' && (
+            <LandingView 
+              onStart={(mode) => {
+                if (mode?.startsWith('council_')) {
+                  const subMode = mode.split('_')[1];
+                  // Set pre-defined tasks for instant help
+                  if (subMode === 'job') setTask('Career pivot analysis: Give me a 90-day trajectory audit.');
+                  if (subMode === 'business') setTask('Business bottleneck fix: Analyze my current scaling issues.');
+                  if (subMode === 'health') setTask('Health optimization: Create a neural performance blueprint.');
+                  setStep('council');
+                } else {
+                  setStep('profiler');
+                }
+              }} 
+            />
+          )}
           
           {step === 'profiler' && (
             <UserProfileView 
@@ -238,7 +253,7 @@ export default function Home() {
           )}
 
           {step === 'council' && (
-            <AgentCouncilView />
+            <AgentCouncilView initialTask={task} />
           )}
         </motion.div>
       </AnimatePresence>

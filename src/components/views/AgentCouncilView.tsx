@@ -81,8 +81,14 @@ interface Message {
   content: string;
 }
 
-export default function AgentCouncilView() {
-  const [taskInput, setTaskInput] = useState('');
+export default function AgentCouncilView({ initialTask }: { initialTask?: string }) {
+  const [taskInput, setTaskInput] = useState(initialTask || '');
+
+  useEffect(() => {
+    if (initialTask) {
+      handleSimulateCouncil(initialTask);
+    }
+  }, [initialTask]);
   const [councilMode, setCouncilMode] = useState<CouncilMode>('founder');
   const agents = COUNCIL_MODES[councilMode];
   const [retrievedContext, setRetrievedContext] = useState<any[]>([]);

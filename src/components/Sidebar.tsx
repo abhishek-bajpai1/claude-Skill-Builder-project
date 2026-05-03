@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BrainCircuit, LayoutDashboard, Sparkles, Database, Shield, TrendingUp, Briefcase, Zap, Users } from 'lucide-react';
+import { BrainCircuit, LayoutDashboard, Sparkles, Database, Shield, TrendingUp, Briefcase, Zap, Users, HelpCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -25,7 +25,7 @@ export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarP
     { label: 'Team Library', step: 'library', icon: Database },
     { label: 'Model Benchmark', step: 'benchmark', icon: Zap },
     { label: 'Privacy Inspector', step: 'privacy', icon: Shield },
-    { label: 'Mastery Hub', step: 'pm_center', icon: Briefcase },
+    { label: 'Instant Support Hub', step: 'pm_center', icon: HelpCircle },
     { label: 'Agent Council', step: 'council', icon: Users },
   ];
 
@@ -52,7 +52,7 @@ export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarP
               key={link.step}
               onClick={() => onNavigate(link.step)}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm",
+                "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm relative",
                 isActive 
                   ? "bg-slate-800 text-white shadow-inner"
                   : "hover:bg-slate-900 hover:text-white"
@@ -72,6 +72,34 @@ export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarP
       </div>
 
       <div className="mt-auto px-6 space-y-4">
+        {/* NEW: Neural System Health Dashboard */}
+        <div className="p-4 bg-slate-900/50 rounded-2xl border border-slate-800 space-y-3">
+           <div className="flex justify-between items-center mb-2">
+              <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Neural Link Status</span>
+              <div className="flex gap-1">
+                 {[1,2,3].map(i => <div key={i} className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" style={{ animationDelay: `${i*200}ms` }} />)}
+              </div>
+           </div>
+           {[
+              { label: 'Coherence', val: 94 },
+              { label: 'Entropy', val: 12 },
+              { label: 'Buffer', val: 88 }
+           ].map((stat, idx) => (
+              <div key={idx} className="space-y-1">
+                 <div className="flex justify-between text-[8px] font-bold text-slate-500 uppercase">
+                    <span>{stat.label}</span>
+                    <span>{stat.val}%</span>
+                 </div>
+                 <div className="w-full bg-slate-950 h-0.5 rounded-full overflow-hidden">
+                    <div 
+                       className={cn("h-full rounded-full transition-all duration-1000", stat.label === 'Entropy' ? "bg-rose-500" : "bg-emerald-500")} 
+                       style={{ width: `${stat.val}%` }} 
+                    />
+                 </div>
+              </div>
+           ))}
+        </div>
+
         {/* Daily Retention Hook */}
         <div className="bg-gradient-to-br from-orange-500/10 to-transparent rounded-2xl p-4 border border-orange-500/20 relative overflow-hidden group hover:border-orange-500/40 transition-colors cursor-default">
            <div className="flex items-center gap-3">

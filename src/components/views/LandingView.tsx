@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, BrainCircuit, ArrowRight } from 'lucide-react';
 
 interface LandingViewProps {
-  onStart: () => void;
+  onStart: (mode?: string) => void;
 }
 
 const LandingView: React.FC<LandingViewProps> = ({ onStart }) => {
@@ -37,12 +37,39 @@ const LandingView: React.FC<LandingViewProps> = ({ onStart }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
-        onClick={onStart}
+        onClick={() => onStart()}
         className="group relative px-8 py-4 bg-black text-white rounded-full font-bold text-lg flex items-center gap-3 transition-transform hover:scale-105 shadow-xl"
       >
-        Get Recommendation
+        Enterprise Strategy Hub
         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </motion.button>
+
+      {/* NEW: General Public Quick Assist Section */}
+      <motion.div 
+         initial={{ opacity: 0, y: 20 }}
+         animate={{ opacity: 1, y: 0 }}
+         transition={{ delay: 0.6 }}
+         className="w-full max-w-4xl"
+      >
+         <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Quick Neural Assist</h2>
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+               { id: 'council_job', title: 'Career Pivot', icon: '💼', text: 'Instant career trajectory audit.' },
+               { id: 'council_business', title: 'Business Fix', icon: '🚀', text: 'Solve founder bottlenecks now.' },
+               { id: 'council_health', title: 'Health Hack', icon: '🧠', text: 'Optimize neural performance.' }
+            ].map((item) => (
+               <button 
+                  key={item.id}
+                  onClick={() => onStart(item.id)}
+                  className="bg-white border border-slate-100 p-6 rounded-[2rem] text-left hover:border-[#d97757] hover:shadow-xl transition-all group"
+               >
+                  <div className="text-3xl mb-4">{item.icon}</div>
+                  <h3 className="font-black text-sm uppercase tracking-wider mb-2 group-hover:text-[#d97757]">{item.title}</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">{item.text}</p>
+               </button>
+            ))}
+         </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl pt-12">
         {[

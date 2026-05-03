@@ -5,7 +5,14 @@ import { motion } from 'framer-motion';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
-import { Clapperboard, BookOpen, Clock, Zap, TrendingUp, Star, ChevronRight, Plus, Loader2, Trash2 } from 'lucide-react';
+import { Clapperboard, BookOpen, Clock, Zap, TrendingUp, Star, ChevronRight, Plus, Loader2, Trash2, BrainCircuit } from 'lucide-react';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+function cn(...inputs: (string | undefined | null | false)[]) {
+  return twMerge(clsx(inputs));
+}
+
 import { deleteSkill, type Skill } from '@/lib/api';
 import ActivityFeed from './ActivityFeed';
 
@@ -101,6 +108,50 @@ const DashboardView: React.FC<Props> = ({ skills, onNewTask, onRefresh, loading 
             </div>
           </motion.div>
         ))}
+      {/* New Functional Feature: Neural Expertise Heatmap & Daily Insight */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+         <div className="lg:col-span-2 bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+               <BrainCircuit size={14} className="text-[#d97757]" /> Neural Expertise Heatmap
+            </h3>
+            <div className="flex gap-4 items-end h-32 mb-4">
+               {[
+                  { label: 'Strategy', val: 85, color: 'bg-indigo-500' },
+                  { label: 'Product', val: 62, color: 'bg-cyan-500' },
+                  { label: 'Marketing', val: 45, color: 'bg-rose-500' },
+                  { label: 'Technical', val: 78, color: 'bg-emerald-500' },
+                  { label: 'Operations', val: 30, color: 'bg-amber-500' }
+               ].map((domain, i) => (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
+                     <div className="w-full relative bg-slate-50 rounded-t-xl overflow-hidden h-full">
+                        <motion.div 
+                           initial={{ height: 0 }}
+                           animate={{ height: `${domain.val}%` }}
+                           transition={{ duration: 1, delay: i * 0.1 }}
+                           className={cn("absolute bottom-0 w-full group-hover:brightness-110 transition-all", domain.color)} 
+                        />
+                     </div>
+                     <span className="text-[8px] font-black uppercase tracking-tighter text-slate-400">{domain.label}</span>
+                  </div>
+               ))}
+            </div>
+            <p className="text-[10px] text-slate-500 font-medium">Your expertise is trending towards <span className="text-indigo-600 font-bold">Strategic Architect</span>. 12% growth in Technical domain this week.</p>
+         </div>
+
+         <div className="bg-[#d97757] p-8 rounded-[2rem] shadow-lg shadow-[#d97757]/20 text-white relative overflow-hidden flex flex-col justify-between">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16" />
+            <div>
+               <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mb-6 text-white/70">
+                  <Zap size={14} fill="currentColor" /> Daily Insight
+               </div>
+               <h4 className="text-lg font-serif italic mb-4 leading-relaxed">
+                  "Validation is not about proving you are right, but about finding out where you are wrong as fast as possible."
+               </h4>
+            </div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-white/50 border-t border-white/10 pt-4">
+               Context: Strategic Agility
+            </div>
+         </div>
       </div>
 
       {/* Dynamic Learning Pathway */}
