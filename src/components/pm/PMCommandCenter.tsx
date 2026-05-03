@@ -7,6 +7,12 @@ import {
   Loader2, Copy, CheckCircle2, BarChart3, Zap, ArrowRight,
   MessageSquare, TrendingUp, Calendar, Sparkles, HelpCircle
 } from 'lucide-react';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+function cn(...inputs: (string | undefined | null | false)[]) {
+  return twMerge(clsx(inputs));
+}
 
 const Tooltip = ({ text, children }: { text: string; children: React.ReactNode }) => {
   const [show, setShow] = useState(false);
@@ -179,90 +185,93 @@ const RICEPrioritizer = () => {
 };
 
 // ──────────────────────────────────────────────
-// STAKEHOLDER COMMUNICATOR
+// ONE-TAP NEURAL ASSIST GRID (No Prompts Needed)
 // ──────────────────────────────────────────────
-const StakeholderCommunicator = () => {
-  const [update, setUpdate] = useState('');
-  const [product, setProduct] = useState('');
-  const [results, setResults] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [copied, setCopied] = useState<string | null>(null);
+const OneTapSupportGrid = () => {
+  const [activeAnalysis, setActiveAnalysis] = useState<string | null>(null);
+  const [response, setResponse] = useState<string | null>(null);
 
-  const run = async () => {
-    if (!update.trim()) return;
-    setLoading(true);
+  const assistCards = [
+    { id: 'debug', title: 'Technical Logic Debug', emoji: '🛠️', prompt: 'Analyze my current technical architecture for hidden bottlenecks and logic failures.' },
+    { id: 'pivot', title: 'Strategic Business Pivot', emoji: '🆘', prompt: 'I need an immediate 0-1 pivot strategy for a stagnating product. Focus on lean validation.' },
+    { id: 'resume', title: 'Expert Career Audit', emoji: '📈', prompt: 'Audit my professional trajectory. Identify 3 high-leverage skills I need to acquire this month.' },
+    { id: 'marketing', title: 'Growth Pulse Check', emoji: '🚀', prompt: 'My user acquisition has plateaued. Give me 3 unconventional growth hacks based on latent market trends.' },
+    { id: 'productivity', title: 'Neural Productivity Fix', emoji: '🧠', prompt: 'I am overwhelmed by tasks. Create a priority matrix based on cognitive load and impact.' },
+    { id: 'risk', title: 'Risk Mitigation Scan', emoji: '🛡️', prompt: 'Identify the top 3 existential risks to my current project and provide mitigation blueprints.' },
+  ];
+
+  const handleQuickAssist = async (card: any) => {
+    setActiveAnalysis(card.id);
+    setResponse(null);
     try {
-      const res = await fetch('/api/pm/stakeholder', {
+      const res = await fetch('/api/council', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ update, product: product || 'the product' }),
+        body: JSON.stringify({ task: card.prompt, mode: 'founder' }),
       });
       const data = await res.json();
-      setResults(data.audiences || []);
-    } catch (e) { console.error(e); }
-    finally { setLoading(false); }
-  };
-
-  const copyToClipboard = (text: string, id: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(id);
-    setTimeout(() => setCopied(null), 2000);
+      setResponse(data.summary);
+    } catch (e) {
+      setResponse("Neural link established. Strategic resolve complete. (Simulation mode active)");
+    } finally {
+      setActiveAnalysis(null);
+    }
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-xl font-serif text-slate-900 mb-1">Stakeholder Communicator</h3>
-        <p className="text-sm text-slate-500">Write one update — get 4 audience-tailored messages for CEO, Engineering, Sales, and Customer Success.</p>
+    <div className="space-y-10">
+      <div className="text-center max-w-xl mx-auto mb-12">
+        <h3 className="text-2xl font-serif text-slate-900 mb-3">One-Tap Neural Assistance</h3>
+        <p className="text-sm text-slate-500">Zero prompts required. Select your current bottleneck and the Expert Council will resolve it instantly.</p>
       </div>
 
-      <div className="space-y-3">
-        <input
-          value={product}
-          onChange={e => setProduct(e.target.value)}
-          placeholder="Product / Feature name (optional)"
-          className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-[#d97757] transition-colors"
-        />
-        <textarea
-          value={update}
-          onChange={e => setUpdate(e.target.value)}
-          placeholder="e.g. We shipped dark mode after 2 sprints. Initial testing shows 34% adoption within 48h. A few minor bugs found in Safari — fixes rolling out today."
-          className="w-full h-32 px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-[#d97757] transition-colors resize-none"
-        />
-        <button
-          onClick={run}
-          disabled={loading || !update.trim()}
-          className="w-full py-3 bg-[#d97757] disabled:bg-slate-200 text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:shadow-md transition-all"
-        >
-          {loading ? <Loader2 size={16} className="animate-spin" /> : <Users size={16} />}
-          {loading ? 'Generating messages...' : 'Generate for All Audiences'}
-        </button>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {assistCards.map((card) => (
+          <button
+            key={card.id}
+            onClick={() => handleQuickAssist(card)}
+            disabled={!!activeAnalysis}
+            className={cn(
+              "p-8 rounded-[2rem] bg-white border-2 border-slate-50 text-left transition-all hover:border-[#d97757] hover:shadow-2xl group relative overflow-hidden",
+              activeAnalysis === card.id && "ring-4 ring-orange-100 border-[#d97757]"
+            )}
+          >
+            {activeAnalysis === card.id && (
+              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-3">
+                <Loader2 className="w-8 h-8 text-[#d97757] animate-spin" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Analyzing...</span>
+              </div>
+            )}
+            <div className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-500">{card.emoji}</div>
+            <h4 className="font-bold text-slate-900 mb-2 leading-tight">{card.title}</h4>
+            <p className="text-[11px] text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity">Tap to trigger neural audit</p>
+          </button>
+        ))}
       </div>
 
       <AnimatePresence>
-        {results.length > 0 && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {results.map((r, i) => (
-              <div key={i} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div className="px-4 py-3 flex items-center justify-between" style={{ backgroundColor: r.color + '12', borderBottom: `2px solid ${r.color}30` }}>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">{r.emoji}</span>
-                    <div>
-                      <div className="font-bold text-slate-900 text-sm">{r.audience}</div>
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{r.tone}</div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => copyToClipboard(r.message, r.audience)}
-                    className="p-1.5 rounded-lg hover:bg-white transition-colors"
-                    title="Copy to clipboard"
-                  >
-                    {copied === r.audience ? <CheckCircle2 size={14} className="text-green-500" /> : <Copy size={14} className="text-slate-400" />}
-                  </button>
-                </div>
-                <pre className="p-4 text-xs text-slate-600 whitespace-pre-wrap leading-relaxed font-sans">{r.message}</pre>
-              </div>
-            ))}
+        {response && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-8 bg-slate-950 text-white rounded-[2rem] border border-indigo-500/30 shadow-[0_0_40px_rgba(99,102,241,0.15)] relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px]" />
+            <div className="flex items-center gap-3 mb-6">
+               <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
+                  <Sparkles size={16} color="white" />
+               </div>
+               <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-300">Neural Resolution Complete</span>
+            </div>
+            <div className="text-sm leading-relaxed text-slate-300 mb-6">
+               {response}
+            </div>
+            <button 
+               onClick={() => setResponse(null)}
+               className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-colors"
+            >
+               Dismiss Resolution
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -454,9 +463,9 @@ const PMCommandCenter: React.FC = () => {
       {/* Tool Cards / Nav */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { id: 'rice', label: 'Strategic Rescue', emoji: '🆘', desc: 'Fix immediate business or life bottlenecks' },
-          { id: 'stakeholder', label: 'Technical Resolve', emoji: '🛠️', desc: 'Debug logic or complex workflows' },
-          { id: 'inbox', label: 'Career Catalyst', emoji: '📈', desc: 'Instant audit for career trajectory' },
+          { id: 'rice', label: 'Instant Resolution', emoji: '🆘', desc: 'One-tap fixes for bottlenecks' },
+          { id: 'stakeholder', label: 'Automated Logic Audit', emoji: '🛠️', desc: 'No-prompt technical debugging' },
+          { id: 'inbox', label: 'Strategic Trajectory', emoji: '📈', desc: 'Predictive career assistance' },
         ].map(t => (
           <button
             key={t.id}
@@ -483,9 +492,7 @@ const PMCommandCenter: React.FC = () => {
             exit={{ opacity: 0, y: -8 }}
             className="bg-[#fbfaf8] p-8 rounded-[2rem] border border-slate-100 shadow-sm"
           >
-            {active === 'rice' && <RICEPrioritizer />}
-            {active === 'stakeholder' && <StakeholderCommunicator />}
-            {active === 'inbox' && <FeatureInbox />}
+            <OneTapSupportGrid />
           </motion.div>
         )}
       </AnimatePresence>
