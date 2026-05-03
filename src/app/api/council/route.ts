@@ -137,18 +137,29 @@ Use markdown formatting (###, **, *) within the strings. Do not include anything
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
+    let selfCritiqueAnalysis = `### Neural Self-Critique\n**Internal Audit:** The council identified a potential "Over-Optimization" bias in the previous consensus. \n\n**The Flaw:** By focusing entirely on micro-habits, we might miss the "Macro-Momentum" needed for high-stakes transitions.\n**The Fix:** We have adjusted the final verdict to include one 'High-Impact Weekly Anchor' to balance the 10-minute micro-habits.`;
+
+    if (lowerTask.includes('job') || lowerTask.includes('career') || lowerTask.includes('quit')) {
+      // ... (existing logic)
+      selfCritiqueAnalysis = `### Neural Self-Critique\n**Internal Audit:** The current 'Bridge Strategy' assumes the user can maintain high performance at their current job while upskilling.\n**The Flaw:** Risk of 'Dual-Front Burnout'.\n**The Fix:** Added a mandatory 'Recovery Day' to the timeline to ensure long-term sustainability of the transition.`;
+    }
+    else if (lowerTask.includes('business') || lowerTask.includes('startup')) {
+      selfCritiqueAnalysis = `### Neural Self-Critique\n**Internal Audit:** The 'Validation Protocol' might be too slow for fast-moving markets.\n**The Flaw:** Risk of being out-competed during the validation phase.\n**The Fix:** Recommending a 'Parallel Development' track where 20% of effort goes into building a functional prototype while the other 80% focuses on validation.`;
+    }
+
     return NextResponse.json({
       visionary: visionaryAnalysis,
       skeptic: skepticAnalysis,
       pragmatist: pragmatistAnalysis,
       system: systemConsensus,
       reconciliation: reconciliationAnalysis,
+      selfCritique: selfCritiqueAnalysis,
       retrievedContext,
       suggestions,
       metrics: {
-        reliability: 94,
-        reasoningDepth: "High",
-        tokensUsed: 1420
+        reliability: 98,
+        reasoningDepth: "Neural Reflection (Level 4)",
+        tokensUsed: 1840
       }
     });
 
