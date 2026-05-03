@@ -10,6 +10,7 @@ import {
 import { triggerConfetti } from '@/lib/celebrate';
 import { createSkill } from '@/lib/api';
 import SkillTreeView from './SkillTreeView';
+import CareerMentor from './CareerMentor';
 
 const ROLES = ['Professional', 'Product Manager', 'Developer', 'Marketer', 'Recruiter', 'Operations'];
 
@@ -178,50 +179,52 @@ const GrowthHubView: React.FC<Props> = ({ onNavigate }) => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-14"
           >
-            {/* Level Card */}
-            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            {/* Level Card & Real-time Career Coach */}
+            <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Current Level */}
-              <div className={`p-8 rounded-[2rem] ${levelCfg.bg} border border-opacity-20 col-span-1 space-y-4`}>
-                <div className="text-5xl">{levelCfg.icon}</div>
-                <div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Current Level</div>
-                  <h2 className="text-3xl font-bold" style={{ color: levelCfg.color }}>{data.level}</h2>
-                  <p className="text-sm font-bold text-slate-500 mt-1">{levelCfg.badge}</p>
+              <div className={`p-8 rounded-[2rem] ${levelCfg.bg} border border-opacity-20 col-span-1 flex flex-col justify-between space-y-6`}>
+                <div className="space-y-4">
+                  <div className="text-5xl">{levelCfg.icon}</div>
+                  <div>
+                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Current Level</div>
+                    <h2 className="text-3xl font-bold" style={{ color: levelCfg.color }}>{data.level}</h2>
+                    <p className="text-sm font-bold text-slate-500 mt-1">{levelCfg.badge}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-bold text-slate-500">
+                      <span>Progress to {data.milestone.target}</span>
+                      <span>{Math.round(data.milestone.progress)}%</span>
+                    </div>
+                    <div className="w-full bg-white/60 rounded-full h-2">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${data.milestone.progress}%` }}
+                        transition={{ duration: 1.2, ease: 'easeOut' }}
+                        className="h-2 rounded-full"
+                        style={{ backgroundColor: levelCfg.color }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{data.milestone.condition}</p>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-bold text-slate-500">
-                    <span>Progress to {data.milestone.target}</span>
-                    <span>{Math.round(data.milestone.progress)}%</span>
-                  </div>
-                  <div className="w-full bg-white/60 rounded-full h-2">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${data.milestone.progress}%` }}
-                      transition={{ duration: 1.2, ease: 'easeOut' }}
-                      className="h-2 rounded-full"
-                      style={{ backgroundColor: levelCfg.color }}
-                    />
-                  </div>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{data.milestone.condition}</p>
+
+                {/* Micro Stats */}
+                <div className="grid grid-cols-2 gap-3 pt-6 border-t border-slate-900/5">
+                   <div>
+                      <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Skills</div>
+                      <div className="text-xl font-bold">{data.totalSkills}</div>
+                   </div>
+                   <div>
+                      <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Uses</div>
+                      <div className="text-xl font-bold text-emerald-600">Active</div>
+                   </div>
                 </div>
               </div>
 
-              {/* Stats */}
-              <div className="col-span-2 grid grid-cols-2 gap-5">
-                {[
-                  { label: 'Active Skills', val: data.totalSkills, icon: <Sparkles size={14} />, color: '#d97757' },
-                  { label: 'Top Tags', val: data.topTags.slice(0, 2).join(', ') || 'None yet', icon: <Target size={14} />, color: '#3b82f6' },
-                  { label: 'Skill Gaps Detected', val: data.gaps.length, icon: <AlertCircle size={14} />, color: '#ef4444' },
-                  { label: 'Most Used', val: data.mostUsed[0] || 'N/A', icon: <Trophy size={14} />, color: '#8b5cf6' },
-                ].map((s, i) => (
-                  <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-3">
-                    <div className="flex items-center gap-2" style={{ color: s.color }}>
-                      {s.icon}
-                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{s.label}</span>
-                    </div>
-                    <div className="text-2xl font-bold text-slate-900 truncate">{s.val}</div>
-                  </div>
-                ))}
+              {/* Real-time Career Mentor */}
+              <div className="lg:col-span-2">
+                 <CareerMentor userRole={role} />
               </div>
             </section>
 

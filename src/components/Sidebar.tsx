@@ -19,13 +19,13 @@ interface SidebarProps {
 
 export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarProps) {
   const navLinks: { label: string; step: FlowStep; icon: React.ElementType }[] = [
-    { label: 'New Analysis', step: 'input', icon: Sparkles },
+    { label: 'Neural Career Mentor', step: 'growth', icon: TrendingUp },
+    { label: 'Support Portal', step: 'pm_center', icon: HelpCircle },
     { label: 'Dashboard', step: 'dashboard', icon: LayoutDashboard },
-    { label: 'Growth Hub', step: 'growth', icon: TrendingUp },
+    { label: 'New Analysis', step: 'input', icon: Sparkles },
     { label: 'Team Library', step: 'library', icon: Database },
     { label: 'Model Benchmark', step: 'benchmark', icon: Zap },
     { label: 'Privacy Inspector', step: 'privacy', icon: Shield },
-    { label: 'Instant Support Hub', step: 'pm_center', icon: HelpCircle },
     { label: 'Agent Council', step: 'council', icon: Users },
   ];
 
