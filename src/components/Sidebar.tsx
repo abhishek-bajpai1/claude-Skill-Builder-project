@@ -19,14 +19,13 @@ interface SidebarProps {
 
 export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarProps) {
   const navLinks: { label: string; step: FlowStep; icon: React.ElementType }[] = [
-    { label: 'Neural Career Mentor', step: 'growth', icon: TrendingUp },
-    { label: 'Support Portal', step: 'pm_center', icon: HelpCircle },
-    { label: 'Dashboard', step: 'dashboard', icon: LayoutDashboard },
-    { label: 'New Analysis', step: 'input', icon: Sparkles },
-    { label: 'Team Library', step: 'library', icon: Database },
+    { label: 'Neural Career Mentor', step: 'growth', icon: Briefcase },
+    { label: 'Strategic Support Hub', step: 'pm_center', icon: HelpCircle },
+    { label: 'Agent Council', step: 'council', icon: Users },
+    { label: 'Neural Dashboard', step: 'dashboard', icon: LayoutDashboard },
     { label: 'Model Benchmark', step: 'benchmark', icon: Zap },
     { label: 'Privacy Inspector', step: 'privacy', icon: Shield },
-    { label: 'Agent Council', step: 'council', icon: Users },
+    { label: 'Team Library', step: 'library', icon: Database },
   ];
 
   const progress = Math.min((xp / (level * 100)) * 100, 100);

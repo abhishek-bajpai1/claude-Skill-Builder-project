@@ -23,8 +23,8 @@ const LandingView: React.FC<LandingViewProps> = ({ onStart }) => {
         </div>
         
         <h1 className="text-5xl font-serif text-[#1a1a1a] leading-tight">
-          Unlock the Power of <br />
-          <span className="text-[#d97757]">Interactive Skills</span>
+          Neural Strategy & <br />
+          <span className="text-[#d97757]">Career Mentor</span>
         </h1>
         
         <p className="text-xl text-[#666] leading-relaxed">

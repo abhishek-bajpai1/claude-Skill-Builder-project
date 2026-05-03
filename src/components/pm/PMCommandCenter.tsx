@@ -129,8 +129,8 @@ const PMCommandCenter = () => {
                 <span className="text-[8px] font-black text-emerald-600 uppercase tracking-widest">Active Resolution Engine</span>
              </div>
           </div>
-          <h1 className="text-5xl font-serif text-slate-900 leading-tight">Instant Support Portal</h1>
-          <p className="text-lg text-slate-500 max-w-2xl">One-tap strategic audits for general public needs and professional emergencies. Zero prompt writing required.</p>
+          <h1 className="text-5xl font-serif text-slate-900 leading-tight">Strategic Support Hub</h1>
+          <p className="text-lg text-slate-500 max-w-2xl">High-impact strategic audits for professional emergencies and public resolution needs. Zero prompt engineering required.</p>
         </div>
         
         <div className="flex gap-8 border-l border-slate-200 pl-8 h-fit pb-2">
