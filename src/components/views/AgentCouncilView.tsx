@@ -4,6 +4,8 @@ import { ShieldAlert, Target, Send, Loader2, Network, CheckCircle2, Sparkles, Da
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import CareerMentor from './CareerMentor';
+
 function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
 }
