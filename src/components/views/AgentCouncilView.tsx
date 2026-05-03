@@ -121,7 +121,7 @@ export default function AgentCouncilView({ initialTask }: { initialTask?: string
       const response = await fetch('/api/council', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ task: finalTask })
+        body: JSON.stringify({ task: finalTask, mode: councilMode })
       });
       
       const data = await response.json();
@@ -254,7 +254,7 @@ export default function AgentCouncilView({ initialTask }: { initialTask?: string
         {/* Left Side: Agents & Reliability Dashboard */}
         <div className="lg:col-span-1 space-y-6">
           
-          {/* New Strategic Feature: Council Mode Switcher */}
+          {/* Council Mode Switcher */}
           <section className="bg-slate-900/60 rounded-[2rem] border border-slate-800 p-2 flex gap-1 mb-4">
              {(['founder', 'growth', 'career'] as CouncilMode[]).map((mode) => (
                 <button
@@ -275,36 +275,50 @@ export default function AgentCouncilView({ initialTask }: { initialTask?: string
              ))}
           </section>
 
-          <section className="space-y-4">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 ml-1">Council Nodes</h3>
-            {agents.map((agent) => {
-              const Icon = agent.icon;
-              const isActive = activeAgent === agent.id;
-              return (
-                <div 
-                  key={agent.id}
-                  className={cn(
-                    "p-5 rounded-2xl border transition-all duration-500 relative overflow-hidden backdrop-blur-md",
-                    isActive 
-                      ? cn("bg-slate-900 border-white/20", agent.glow) 
-                      : "bg-slate-900/40 border-slate-800/50 hover:bg-slate-800/50"
-                  )}
-                >
-                  <div className="flex items-center gap-4 relative z-10">
-                    <div className={cn("p-2.5 rounded-xl transition-colors", isActive ? "bg-slate-800" : "bg-slate-950")}>
-                      <Icon className={cn("w-5 h-5", isActive ? agent.color : "text-slate-500")} />
-                    </div>
-                    <div>
-                      <p className={cn("font-bold text-sm", isActive ? "text-white" : "text-slate-300")}>{agent.name}</p>
-                      <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-1">{agent.description}</p>
-                    </div>
-                  </div>
+          {councilMode === 'career' ? (
+             <section className="p-6 bg-slate-900/60 rounded-[2rem] border border-slate-800 space-y-4">
+                <div className="flex items-center gap-2 text-indigo-400 mb-2">
+                   <Target size={16} />
+                   <span className="text-[10px] font-black uppercase tracking-[0.2em]">Live Career Audit</span>
                 </div>
-              );
-            })}
-          </section>
+                <p className="text-xs text-slate-400 leading-relaxed italic">"Career mode now operates in real-time neural link mode. Direct mentor communication established."</p>
+                <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                   <span className="text-[9px] font-bold text-slate-500">Latency</span>
+                   <span className="text-[9px] font-bold text-emerald-500">14ms</span>
+                </div>
+             </section>
+          ) : (
+             <section className="space-y-4">
+               <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 ml-1">Council Nodes</h3>
+               {agents.map((agent) => {
+                 const Icon = agent.icon;
+                 const isActive = activeAgent === agent.id;
+                 return (
+                   <div 
+                     key={agent.id}
+                     className={cn(
+                       "p-5 rounded-2xl border transition-all duration-500 relative overflow-hidden backdrop-blur-md",
+                       isActive 
+                         ? cn("bg-slate-900 border-white/20", agent.glow) 
+                         : "bg-slate-900/40 border-slate-800/50 hover:bg-slate-800/50"
+                     )}
+                   >
+                     <div className="flex items-center gap-4 relative z-10">
+                       <div className={cn("p-2.5 rounded-xl transition-colors", isActive ? "bg-slate-800" : "bg-slate-950")}>
+                         <Icon className={cn("w-5 h-5", isActive ? agent.color : "text-slate-500")} />
+                       </div>
+                       <div>
+                         <p className={cn("font-bold text-sm", isActive ? "text-white" : "text-slate-300")}>{agent.name}</p>
+                         <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-1">{agent.description}</p>
+                       </div>
+                     </div>
+                   </div>
+                 );
+               })}
+             </section>
+          )}
 
-          {/* New Deep Learning Concept: RAG Neural Memory */}
+          {/* RAG Neural Memory */}
           <section className="bg-slate-900/60 rounded-[2rem] border border-slate-800 p-6 space-y-4">
             <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-2">
               <Sparkles size={12} className="text-cyan-400" />
@@ -334,7 +348,7 @@ export default function AgentCouncilView({ initialTask }: { initialTask?: string
             )}
           </section>
 
-          {/* New Reliability Dashboard */}
+          {/* Reliability Dashboard */}
           <section className="bg-slate-900/60 rounded-[2rem] border border-slate-800 p-6 space-y-6">
             <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-2">
               <ShieldAlert size={12} className="text-indigo-400" />
@@ -397,183 +411,96 @@ export default function AgentCouncilView({ initialTask }: { initialTask?: string
         </div>
 
         {/* Right Side: Arena */}
-        <div className="lg:col-span-3 flex flex-col h-[70vh] bg-slate-900/40 border border-slate-800 rounded-[2rem] backdrop-blur-xl shadow-2xl relative overflow-hidden">
-          
-          {/* Chat Area */}
-          <div ref={chatRef} className="flex-1 p-8 overflow-y-auto space-y-8 scroll-smooth">
-            {messages.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-                <Sparkles className="w-16 h-16 text-slate-500 mb-6" />
-                <p className="text-xl font-medium text-slate-300">Initialize sequence.</p>
-                <p className="text-sm text-slate-500 mt-2">Submit a thesis for the council to deconstruct.</p>
-              </div>
-            ) : (
-              <AnimatePresence initial={false}>
-                {messages.map((msg) => {
-                  if (msg.agentId === 'user') {
-                    return (
-                      <motion.div key={msg.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-end">
-                        <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-4 rounded-3xl rounded-tr-sm max-w-[80%] shadow-lg shadow-indigo-500/20">
-                          <p className="text-sm leading-relaxed">{msg.content}</p>
-                        </div>
-                      </motion.div>
-                    );
-                  }
-                  
-                  if (msg.agentId === 'system') {
-                    return (
-                      <motion.div key={msg.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex justify-center my-10">
-                        <div className="bg-slate-950/80 border border-indigo-500/30 px-8 py-5 rounded-2xl flex items-center gap-4 text-indigo-100 shadow-[0_0_30px_rgba(99,102,241,0.15)] max-w-[90%] backdrop-blur-md">
-                          <Network className="w-6 h-6 text-indigo-400 shrink-0" />
-                          <div className="text-sm font-medium leading-relaxed w-full">{renderMarkdown(msg.content)}</div>
-                        </div>
-                      </motion.div>
-                    );
-                  }
+        <div className="lg:col-span-3 flex flex-col h-[75vh] bg-slate-900/40 border border-slate-800 rounded-[2.5rem] backdrop-blur-xl shadow-2xl relative overflow-hidden">
+          {councilMode === 'career' ? (
+             <CareerMentor userRole="Professional" />
+          ) : (
+             <>
+               {/* Chat Area */}
+               <div ref={chatRef} className="flex-1 p-8 overflow-y-auto space-y-8 scroll-smooth">
+                 {messages.length === 0 ? (
+                   <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
+                     <Sparkles className="w-16 h-16 text-slate-500 mb-6" />
+                     <p className="text-xl font-medium text-slate-300">Initialize sequence.</p>
+                     <p className="text-sm text-slate-500 mt-2">Submit a thesis for the council to deconstruct.</p>
+                   </div>
+                 ) : (
+                   <AnimatePresence initial={false}>
+                     {messages.map((msg) => {
+                       if (msg.agentId === 'user') {
+                         return (
+                           <motion.div key={msg.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-end">
+                             <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-4 rounded-3xl rounded-tr-sm max-w-[80%] shadow-lg shadow-indigo-500/20">
+                               <p className="text-sm leading-relaxed">{msg.content}</p>
+                             </div>
+                           </motion.div>
+                         );
+                       }
+                       
+                       if (msg.agentId === 'system') {
+                         return (
+                           <motion.div key={msg.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex justify-center my-10">
+                             <div className="bg-slate-950/80 border border-indigo-500/30 px-8 py-5 rounded-2xl flex items-center gap-4 text-indigo-100 shadow-[0_0_30px_rgba(99,102,241,0.15)] max-w-[90%] backdrop-blur-md">
+                               <Network className="w-6 h-6 text-indigo-400 shrink-0" />
+                               <div className="text-sm font-medium leading-relaxed w-full">{renderMarkdown(msg.content)}</div>
+                             </div>
+                           </motion.div>
+                         );
+                       }
 
-                  const agent = agents.find(a => a.id === msg.agentId);
-                  if (!agent) return null;
-                  const Icon = agent.icon;
+                       const agent = agents.find(a => a.id === msg.agentId);
+                       if (!agent) return null;
+                       const Icon = agent.icon;
 
-                  return (
-                    <motion.div key={msg.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex gap-5 max-w-[85%]">
-                      <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border bg-slate-900 shadow-lg", agent.glow)}>
-                        <Icon className={cn("w-6 h-6", agent.color)} />
-                      </div>
-                      <div className="space-y-1.5 mt-1">
-                        <div className="flex items-center gap-3">
-                          <span className={cn("font-bold text-xs tracking-wide uppercase", agent.color)}>{agent.name}</span>
-                        </div>
-                        <div className="bg-slate-800/50 border border-slate-700/50 px-6 py-4 rounded-3xl rounded-tl-sm shadow-sm backdrop-blur-sm">
-                          <div className="text-sm text-slate-200 leading-relaxed w-full">{renderMarkdown(msg.content)}</div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-                {isProcessing && activeAgent && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3 text-slate-400 ml-16 mt-4">
-                    <Loader2 className="w-4 h-4 animate-spin text-indigo-400" />
-                    <span className="text-xs font-bold tracking-widest uppercase text-indigo-400/70">Synthesizing...</span>
-                  </motion.div>
-                )}
-                {!isProcessing && suggestions.length > 0 && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    className="flex flex-col gap-3 mt-10 border-t border-slate-800 pt-8"
-                  >
-                     <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">Multi-Call Suggestions</span>
-                     <div className="flex flex-wrap gap-2">
-                        {suggestions.map((suggestion, i) => (
-                           <button 
-                             key={i}
-                             onClick={() => handleSimulateCouncil(suggestion)}
-                             className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs font-medium text-slate-300 hover:border-[#d97757] hover:text-white transition-all text-left max-w-sm"
-                           >
-                              {suggestion}
-                           </button>
-                        ))}
-                     </div>
-                  </motion.div>
-                )}
-
-                {/* New Feature: Neural Impact Timeline */}
-                {!isProcessing && metrics && (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="mt-12 p-8 bg-slate-950/50 rounded-[2rem] border border-slate-800 relative overflow-hidden"
-                  >
-                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
-                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-8 text-center">Projected Impact Timeline (Compounding)</h3>
-                     
-                     <div className="grid grid-cols-3 gap-8 relative">
-                        {/* Connecting Line */}
-                        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-slate-800 -translate-y-1/2 z-0" />
-                        
-                        {[
-                           { label: '30 Days', title: 'Momentum', color: 'bg-cyan-500', text: 'Micro-habits established. Initial validation signal captured.' },
-                           { label: '90 Days', title: 'Validation', color: 'bg-indigo-500', text: 'Bridge strategy finalized. 75% income/readiness threshold reached.' },
-                           { label: '365 Days', title: 'Compounding', color: 'bg-emerald-500', text: 'Full trajectory shift. Competitive advantage solidified in latent space.' }
-                        ].map((milestone, idx) => (
-                           <div key={idx} className="relative z-10 flex flex-col items-center text-center">
-                              <div className={cn("w-10 h-10 rounded-full flex items-center justify-center mb-4 border-4 border-slate-950", milestone.color)}>
-                                 <span className="text-[10px] font-black text-white">{milestone.label}</span>
-                              </div>
-                              <div className="text-xs font-bold text-white mb-2">{milestone.title}</div>
-                              <div className="text-[10px] text-slate-500 leading-tight">{milestone.text}</div>
+                       return (
+                         <motion.div key={msg.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex gap-5 max-w-[85%]">
+                           <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border bg-slate-900 shadow-lg", agent.glow)}>
+                             <Icon className={cn("w-6 h-6", agent.color)} />
                            </div>
-                        ))}
-                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            )}
-          </div>
+                           <div className="space-y-1.5 mt-1">
+                             <div className="flex items-center gap-3">
+                               <span className={cn("font-bold text-xs tracking-wide uppercase", agent.color)}>{agent.name}</span>
+                             </div>
+                             <div className="bg-slate-800/50 border border-slate-700/50 px-6 py-4 rounded-3xl rounded-tl-sm shadow-sm backdrop-blur-sm">
+                               <div className="text-sm text-slate-200 leading-relaxed w-full">{renderMarkdown(msg.content)}</div>
+                             </div>
+                           </div>
+                         </motion.div>
+                       );
+                     })}
+                     {isProcessing && activeAgent && (
+                       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3 text-slate-400 ml-16 mt-4">
+                         <Loader2 className="w-4 h-4 animate-spin text-indigo-400" />
+                         <span className="text-xs font-bold tracking-widest uppercase text-indigo-400/70">Synthesizing...</span>
+                       </motion.div>
+                     )}
+                   </AnimatePresence>
+                 )}
+               </div>
 
-          {/* Input Area */}
-          <div className="p-6 bg-slate-900/80 border-t border-slate-800 backdrop-blur-xl space-y-4">
-            
-            {/* New Deep Learning Concept: Attention Map */}
-            {taskInput.length > 10 && (
-               <motion.div 
-                 initial={{ opacity: 0, y: 10 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 className="flex flex-wrap gap-2 p-4 bg-slate-950/50 rounded-xl border border-slate-800/50"
-               >
-                  <span className="text-[8px] font-black text-slate-600 uppercase tracking-widest w-full mb-1 flex items-center gap-2">
-                     <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
-                     Real-time Attention Heatmap (Latent Space)
-                  </span>
-                  {taskInput.split(' ').map((word, idx) => {
-                     const isHighAttention = ['pivoting', 'startup', 'business', 'career', 'ai', 'engineering', 'process', 'automate', 'scaling'].includes(word.toLowerCase().replace(/[^a-z]/g, ''));
-                     return (
-                        <span 
-                           key={idx} 
-                           className={cn(
-                              "text-[10px] px-1.5 py-0.5 rounded transition-all duration-700",
-                              isHighAttention 
-                                ? "bg-orange-500/20 text-orange-400 font-bold border border-orange-500/30 scale-110" 
-                                : "text-slate-600"
-                           )}
-                        >
-                           {word}
-                        </span>
-                     );
-                  })}
-               </motion.div>
-            )}
-
-            <div className="relative flex items-center max-w-4xl mx-auto">
-              <input 
-                type="text" 
-                value={taskInput}
-                onChange={(e) => setTaskInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSimulateCouncil()}
-                placeholder="E.g., I'm thinking of completely pivoting my career into AI engineering..."
-                disabled={isProcessing}
-                className="w-full pl-6 pr-16 py-5 bg-slate-950 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all disabled:opacity-50 shadow-inner"
-              />
-              <button 
-                onClick={() => {
-                   setTaskInput("Analyzing strategic pivot: How do I scale a 0-1 business using lean validation?");
-                   alert("Voice recognition activated. Strategic intent captured.");
-                }}
-                className="p-3 text-slate-500 hover:text-white transition-colors mr-2"
-              >
-                <Mic className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={() => handleSimulateCouncil()}
-                disabled={isProcessing || !taskInput.trim()}
-                className="absolute right-3 p-3 bg-white text-black rounded-xl hover:bg-slate-200 disabled:opacity-20 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)]"
-              >
-                <Send className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-
+               {/* Input Area */}
+               <div className="p-6 bg-slate-900/80 border-t border-slate-800 backdrop-blur-xl space-y-4">
+                 <div className="relative flex items-center max-w-4xl mx-auto">
+                   <input 
+                     type="text" 
+                     value={taskInput}
+                     onChange={(e) => setTaskInput(e.target.value)}
+                     onKeyDown={(e) => e.key === 'Enter' && handleSimulateCouncil()}
+                     placeholder="E.g., I'm thinking of completely pivoting my career into AI engineering..."
+                     disabled={isProcessing}
+                     className="w-full pl-6 pr-16 py-5 bg-slate-950 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all disabled:opacity-50 shadow-inner"
+                   />
+                   <button 
+                     onClick={() => handleSimulateCouncil()}
+                     disabled={isProcessing || !taskInput.trim()}
+                     className="absolute right-3 p-3 bg-white text-black rounded-xl hover:bg-slate-200 disabled:opacity-20 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                   >
+                     <Send className="w-5 h-5" />
+                   </button>
+                 </div>
+               </div>
+             </>
+          )}
         </div>
       </div>
     </div>
