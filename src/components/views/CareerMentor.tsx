@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Send, Sparkles, User, Loader2, BrainCircuit, TrendingUp, Target } from 'lucide-react';
+import { MessageSquare, Send, Sparkles, User, Loader2, BrainCircuit, TrendingUp, Target, Headphones } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
