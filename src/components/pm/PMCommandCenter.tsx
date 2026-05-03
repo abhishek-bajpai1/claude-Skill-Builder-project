@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import PricingPlans from './PricingPlans';
 
 function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
@@ -96,7 +97,7 @@ const OneTapSupportGrid = () => {
                   <AlertCircle size={20} />
                </button>
             </div>
-            <div className="text-base leading-relaxed text-slate-300 mb-8 font-serif italic">
+            <div className="text-sm leading-relaxed text-slate-300 mb-8 italic">
                "{response}"
             </div>
             <div className="flex gap-4">
@@ -147,6 +148,18 @@ const PMCommandCenter = () => {
       {/* Main Interaction Area */}
       <OneTapSupportGrid />
 
+      {/* Monetization Strategy Section */}
+      <section className="pt-20 space-y-10 border-t border-slate-100">
+         <div className="text-center space-y-3">
+            <div className="flex items-center justify-center gap-2 text-[10px] font-black text-[#d97757] uppercase tracking-[0.3em] mb-2">
+               <Crown size={12} /> Premium Infrastructure
+            </div>
+            <h2 className="text-4xl font-serif text-slate-900">Neural Subscription Tiers</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto">Scalable monetization for high-frequency professionals and enterprise units requiring dedicated neural bandwidth.</p>
+         </div>
+         <PricingPlans />
+      </section>
+
       {/* Support Infrastructure Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-12 border-t border-slate-100">
          {[
@@ -169,11 +182,11 @@ const PMCommandCenter = () => {
       <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-500/20 to-transparent pointer-events-none" />
          <div className="relative z-10 space-y-3">
-            <h3 className="text-2xl font-serif">Need a deeper audit?</h3>
-            <p className="text-slate-400 text-sm">Escalate your ticket to the full Senior Agent Council for complex strategic debugging.</p>
+            <h3 className="text-2xl font-serif text-white">Need a custom neural link?</h3>
+            <p className="text-slate-400 text-sm">Escalate your strategic ticket to our Enterprise Architecture team for tailored agent fine-tuning.</p>
          </div>
          <button className="relative z-10 px-8 py-4 bg-[#d97757] text-white rounded-2xl font-bold hover:scale-105 transition-all shadow-xl shadow-orange-500/20 flex items-center gap-3 group">
-            Open Advanced Council
+            Contact Support
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
          </button>
       </div>
