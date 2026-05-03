@@ -453,11 +453,17 @@ const PMCommandCenter: React.FC = () => {
     <div className="max-w-6xl mx-auto py-12 space-y-10">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 text-[10px] font-black text-[#d97757] uppercase tracking-widest mb-2">
-          <Sparkles size={12} /> Neural Instant Support Hub
+        <div className="flex items-center justify-between mb-2">
+           <div className="flex items-center gap-2 text-[10px] font-black text-[#d97757] uppercase tracking-widest">
+             <Sparkles size={12} /> Neural Instant Support Hub
+           </div>
+           <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[8px] font-black text-emerald-600 uppercase tracking-widest">System Active: One-Tap Support</span>
+           </div>
         </div>
-        <h1 className="text-4xl font-serif text-slate-900">Instant Problem Solver</h1>
-        <p className="text-slate-500 mt-2">Zero-latency neural assistance for general public needs and professional strategic emergencies.</p>
+        <h1 className="text-4xl font-serif text-slate-900">Instant Support Portal</h1>
+        <p className="text-slate-500 mt-2">Professional strategic assistance and general public troubleshooting. Zero prompt engineering required.</p>
       </div>
 
       {/* Tool Cards / Nav */}

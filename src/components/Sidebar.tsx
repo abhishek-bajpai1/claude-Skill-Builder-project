@@ -132,7 +132,7 @@ export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarP
             </motion.div>
           </div>
           <p className="text-[10px] text-slate-500 mt-3 font-medium">
-            {level * 100 - xp} XP to next level
+            Next Support Milestone in {level * 100 - xp} XP
           </p>
         </div>
       </div>
