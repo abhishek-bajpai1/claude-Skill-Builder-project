@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield, Users, Zap, ChevronRight, Loader2, Sparkles, 
   HelpCircle, Globe, Activity, Headphones, CheckCircle2,
-  TrendingUp, MessageSquare, AlertCircle
+  TrendingUp, MessageSquare, AlertCircle, ArrowRight
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
