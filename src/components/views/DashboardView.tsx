@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
-import { Clapperboard, BookOpen, Clock, Zap, TrendingUp, Star, ChevronRight, Plus, Loader2, Trash2, BrainCircuit } from 'lucide-react';
+import { Clapperboard, BookOpen, Clock, Zap, TrendingUp, Star, ChevronRight, Plus, Loader2, Trash2, BrainCircuit, Activity } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -70,14 +70,22 @@ const DashboardView: React.FC<Props> = ({ skills, onNewTask, onRefresh, loading 
   return (
     <div className="max-w-7xl mx-auto space-y-12 pb-12">
       {/* Header */}
-      <div className="flex justify-between items-end">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-serif text-slate-900">Skill Dashboard</h1>
-          <p className="text-slate-500 mt-1">Manage your capabilities and track efficiency.</p>
+          <div className="flex items-center gap-2 mb-2">
+             <div className="px-2 py-0.5 bg-emerald-500/10 text-emerald-600 text-[8px] font-black uppercase tracking-widest rounded-full border border-emerald-500/20 flex items-center gap-1">
+                <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" /> Live Neural Feed
+             </div>
+             <div className="text-[8px] font-bold text-slate-400 uppercase tracking-widest animate-pulse">
+                Analyzing Strategic Pivot Ticket #842...
+             </div>
+          </div>
+          <h1 className="text-4xl font-serif text-slate-900">Neural Dashboard</h1>
+          <p className="text-slate-500 mt-1">Real-time telemetry and capability auditing engine.</p>
         </div>
         <button
           onClick={onNewTask}
-          className="px-6 py-3 bg-black text-white rounded-xl font-bold flex items-center gap-2 hover:bg-[#d97757] transition-all shadow-sm"
+          className="px-6 py-3 bg-black text-white rounded-xl font-bold flex items-center gap-2 hover:bg-[#d97757] transition-all shadow-lg shadow-black/5"
         >
           New Analysis <Plus size={16} />
         </button>
@@ -273,8 +281,41 @@ const DashboardView: React.FC<Props> = ({ skills, onNewTask, onRefresh, loading 
           </div>
         </div>
 
-        <div className="lg:col-span-4 h-[600px] lg:h-auto">
+        <div className="lg:col-span-4 h-[600px] lg:h-auto space-y-8">
           <ActivityFeed />
+          
+          {/* Neural Resolve Log */}
+          <div className="bg-slate-950 p-7 rounded-[2rem] border border-white/5 shadow-2xl relative overflow-hidden">
+             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-6 flex items-center gap-2">
+                <Activity size={14} /> Neural Resolve Log
+             </h3>
+             <div className="space-y-4">
+                {[
+                   { task: 'Technical Audit', status: 'Resolved', time: '2s ago', color: 'bg-emerald-500' },
+                   { task: 'Strategic Pivot', status: 'Analyzing', time: 'Active', color: 'bg-amber-500 animate-pulse' },
+                   { task: 'Career Roadmap', status: 'Resolved', time: '14s ago', color: 'bg-emerald-500' },
+                   { task: 'Risk Scan', status: 'Queued', time: 'Wait', color: 'bg-slate-700' }
+                ].map((log, i) => (
+                   <div key={i} className="flex items-center justify-between group">
+                      <div className="flex items-center gap-3">
+                         <div className={cn("w-1.5 h-1.5 rounded-full", log.color)} />
+                         <span className="text-[11px] font-bold text-slate-300 group-hover:text-white transition-colors">{log.task}</span>
+                      </div>
+                      <div className="text-right">
+                         <div className="text-[9px] font-black uppercase tracking-widest text-slate-500">{log.status}</div>
+                         <div className="text-[8px] text-slate-600 font-bold">{log.time}</div>
+                      </div>
+                   </div>
+                ))}
+             </div>
+             <div className="mt-8 pt-4 border-t border-white/5">
+                <div className="flex justify-between items-center text-[9px] font-bold text-slate-500 uppercase tracking-widest">
+                   <span>Throughput</span>
+                   <span className="text-emerald-500">14.2 ops/s</span>
+                </div>
+             </div>
+          </div>
         </div>
       </div>
     </div>
