@@ -108,6 +108,8 @@ const DashboardView: React.FC<Props> = ({ skills, onNewTask, onRefresh, loading 
             </div>
           </motion.div>
         ))}
+      </div>
+
       {/* New Functional Feature: Neural Expertise Heatmap & Daily Insight */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          <div className="lg:col-span-2 bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden">
