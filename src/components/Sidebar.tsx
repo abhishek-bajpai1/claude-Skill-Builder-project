@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BrainCircuit, LayoutDashboard, Sparkles, Database, Shield, TrendingUp, Briefcase, Zap, Users, HelpCircle } from 'lucide-react';
+import { BrainCircuit, LayoutDashboard, Sparkles, Database, Shield, TrendingUp, Briefcase, Zap, Users, HelpCircle, FlaskConical } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -8,7 +8,7 @@ function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
 }
 
-type FlowStep = 'landing' | 'profiler' | 'input' | 'analyzing' | 'recommendation' | 'create' | 'dashboard' | 'benchmark' | 'library' | 'privacy' | 'growth' | 'pm_center' | 'council';
+type FlowStep = 'landing' | 'profiler' | 'input' | 'analyzing' | 'recommendation' | 'create' | 'dashboard' | 'benchmark' | 'library' | 'privacy' | 'growth' | 'pm_center' | 'council' | 'skill_lab';
 
 interface SidebarProps {
   currentStep: FlowStep;
@@ -20,6 +20,7 @@ interface SidebarProps {
 export default function Sidebar({ currentStep, onNavigate, xp, level }: SidebarProps) {
   const navLinks: { label: string; step: FlowStep; icon: React.ElementType }[] = [
     { label: 'Neural Career Mentor', step: 'growth', icon: Briefcase },
+    { label: 'Neural Skill Lab', step: 'skill_lab', icon: FlaskConical },
     { label: 'Strategic Support Hub', step: 'pm_center', icon: HelpCircle },
     { label: 'Agent Council', step: 'council', icon: Users },
     { label: 'Neural Dashboard', step: 'dashboard', icon: LayoutDashboard },

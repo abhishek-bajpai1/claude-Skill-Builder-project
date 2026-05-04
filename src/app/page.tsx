@@ -14,12 +14,13 @@ import GrowthHubView from '@/components/views/GrowthHubView';
 import PMCommandCenter from '@/components/pm/PMCommandCenter';
 import UserProfileView from '@/components/views/UserProfileView';
 import AgentCouncilView from '@/components/views/AgentCouncilView';
+import SkillLabView from '@/components/views/SkillLabView';
 import Sidebar from '@/components/Sidebar';
 import { triggerConfetti } from '@/lib/celebrate';
 import { analyzeTask, fetchSkills, createSkill, type AnalysisResult, type Skill } from '@/lib/api';
 import { BrainCircuit, Loader2 } from 'lucide-react';
 
-type FlowStep = 'landing' | 'profiler' | 'input' | 'analyzing' | 'recommendation' | 'create' | 'dashboard' | 'benchmark' | 'library' | 'privacy' | 'growth' | 'pm_center' | 'council';
+type FlowStep = 'landing' | 'profiler' | 'input' | 'analyzing' | 'recommendation' | 'create' | 'dashboard' | 'benchmark' | 'library' | 'privacy' | 'growth' | 'pm_center' | 'council' | 'skill_lab';
 
 export default function Home() {
   const [step, setStep] = useState<FlowStep>('landing');
@@ -254,6 +255,10 @@ export default function Home() {
 
           {step === 'council' && (
             <AgentCouncilView initialTask={task} />
+          )}
+
+          {step === 'skill_lab' && (
+            <SkillLabView />
           )}
         </motion.div>
       </AnimatePresence>
